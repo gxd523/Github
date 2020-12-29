@@ -1,0 +1,24 @@
+buildscript {
+    ext.kotlin_version = "1.4.21"
+    repositories {
+        maven {
+            url "https://mirrors.tencent.com/nexus/repository/maven-public/"
+        }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.1.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        maven {
+            url "https://mirrors.tencent.com/nexus/repository/maven-public/"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
