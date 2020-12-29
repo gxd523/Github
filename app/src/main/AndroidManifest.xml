@@ -3,10 +3,11 @@
     package="com.github">
 
     <application
+        android:name=".App"
         android:icon="@android:mipmap/sym_def_app_icon"
         android:label="Github"
-        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
-        <activity android:name=".ui.login.LoginActivity">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
