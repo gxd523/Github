@@ -10,6 +10,8 @@ import com.github.util.sp
 import com.google.gson.Gson
 import retrofit2.HttpException
 import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 interface OnAccountStateChangeListener {
     fun onLogin(user: User)
@@ -25,10 +27,10 @@ object AccountManager {
 
     private var userJson by sp("")
 
-    var currentUser: User? = null
+    private var currentUser: User? = null
         get() {
             if (field == null && userJson.isNotEmpty()) {
-                field = Gson().fromJson(userJson)
+                field = Gson().fromJson<User>(userJson)
             }
             return field
         }
@@ -55,29 +57,27 @@ object AccountManager {
 
     fun isLoggedIn(): Boolean = token.isNotEmpty()
 
-    fun login() =
-        AuthService.createAuthorization(AuthorizationRequest())
-            .doOnNext {
-                if (it.token.isEmpty()) throw AccountException(it)
-            }
-            .retryWhen {
-                it.flatMap {
-                    if (it is AccountException) {
-                        AuthService.deleteAuthorization(it.authorizationRsp.id)
-                    } else {
-                        Observable.error(it)
-                    }
+    fun login() = AuthService.createAuthorization(AuthorizationRequest())
+        .doOnNext {
+            if (it.token.isEmpty()) throw AccountException(it)
+        }.retryWhen {
+            it.flatMap { throwable ->
+                if (throwable is AccountException) {
+                    AuthService.deleteAuthorization(throwable.authorizationRsp.id)
+                } else {
+                    Observable.error(throwable)
                 }
             }
-            .flatMap {
-                token = it.token
-                authId = it.id
-                UserService.getAuthenticatedUser()
-            }
-            .map {
-                currentUser = it
-                notifyLogin(it)
-            }
+        }.flatMap {
+            token = it.token
+            authId = it.id
+            UserService.getAuthenticatedUser()
+        }.map {
+            currentUser = it
+            notifyLogin(it)
+        }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 
     fun logout() = AuthService.deleteAuthorization(authId)
         .doOnNext {
@@ -90,6 +90,8 @@ object AccountManager {
                 throw HttpException(it)
             }
         }
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 
     class AccountException(val authorizationRsp: AuthorizationResponse) : Exception("Already logged in.")
 }

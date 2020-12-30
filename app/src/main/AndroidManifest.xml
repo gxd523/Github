@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".App"
         android:icon="@android:mipmap/sym_def_app_icon"
