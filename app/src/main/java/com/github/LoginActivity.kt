@@ -10,7 +10,7 @@ class LoginActivity : BaseActivity<LoginPresenter>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        emailEt.setText(Settings.email)
-        passwordEt.setText(Settings.password)
+        username.setText(Settings.username)
+        password.setText(Settings.password)
     }
 }

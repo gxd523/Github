@@ -1,7 +1,7 @@
 package com.github.mvp.impl
 
+import android.app.Activity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.github.mvp.IPresenter
 import com.github.mvp.IViewer
 import java.lang.reflect.ParameterizedType
@@ -11,7 +11,7 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.jvm.jvmErasure
 
-abstract class BaseActivity<out Presenter : BasePresenter<BaseActivity<Presenter>>> : AppCompatActivity(), IViewer<Presenter> {
+abstract class BaseActivity<out Presenter : BasePresenter<BaseActivity<Presenter>>> : Activity(), IViewer<Presenter> {
     final override val presenter: Presenter
 
     init {
