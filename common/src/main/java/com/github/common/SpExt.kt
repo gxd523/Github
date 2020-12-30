@@ -4,18 +4,28 @@ import android.content.Context
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class SpExt<T>(context: Context, private val defaultValue: T, spName: String = "default") :
-    ReadWriteProperty<Any?, T> {
+class SpExt<T>(
+    context: Context,
+    private val defaultValue: T,
+    spName: String = "default",
+    private val key: String = "",
+) : ReadWriteProperty<Any?, T> {
     private val sp by lazy {
         context.getSharedPreferences(spName, Context.MODE_PRIVATE)
     }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        return getSpValue(property.name)
+        val key = findKey(property)
+        return getSpValue(key)
     }
 
     override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        putSpValue(property.name, value)
+        val key = findKey(property)
+        putSpValue(key, value)
+    }
+
+    private fun findKey(property: KProperty<*>): String {
+        return key.isEmpty().yes { property.name }.otherwise { key }
     }
 
     private fun putSpValue(key: String, value: T) {
