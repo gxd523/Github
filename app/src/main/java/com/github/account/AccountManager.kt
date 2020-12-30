@@ -10,8 +10,6 @@ import com.github.util.sp
 import com.google.gson.Gson
 import retrofit2.HttpException
 import rx.Observable
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 interface OnAccountStateChangeListener {
     fun onLogin(user: User)
@@ -76,8 +74,6 @@ object AccountManager {
             currentUser = it
             notifyLogin(it)
         }
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
 
     fun logout() = AuthService.deleteAuthorization(authId)
         .doOnNext {
@@ -90,8 +86,6 @@ object AccountManager {
                 throw HttpException(it)
             }
         }
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
 
     class AccountException(val authorizationRsp: AuthorizationResponse) : Exception("Already logged in.")
 }
