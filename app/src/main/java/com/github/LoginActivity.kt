@@ -3,6 +3,7 @@ package com.github
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import com.bennyhuo.common.ext.hideSoftInput
@@ -10,7 +11,12 @@ import com.github.common.otherwise
 import com.github.common.yes
 import com.github.login.LoginPresenter
 import com.github.mvp.impl.BaseActivity
+import com.github.settings.Configs
 import kotlinx.android.synthetic.main.activity_login.*
+import me.zhyd.oauth.config.AuthConfig
+import me.zhyd.oauth.request.AuthGithubRequest
+import me.zhyd.oauth.request.AuthRequest
+import me.zhyd.oauth.utils.AuthStateUtils
 import org.jetbrains.anko.toast
 
 class LoginActivity : BaseActivity<LoginPresenter>() {
@@ -34,6 +40,17 @@ class LoginActivity : BaseActivity<LoginPresenter>() {
                     showTips(usernameEt, "用户名不合法")
                 }
         }
+    }
+
+    private fun justAuth() {
+        val authConfig = AuthConfig.builder()
+            .clientId(Configs.Account.clientId)
+            .clientSecret(Configs.Account.clientSecret)
+            .redirectUri(Configs.Account.callbackUrl)
+            .build()
+        val authRequest: AuthRequest = AuthGithubRequest(authConfig)
+        val authorize = authRequest.authorize(AuthStateUtils.createState())
+        Log.d("gxd", "LoginActivity.onCreate-->$authorize")
     }
 
     private fun showTips(view: EditText, tips: String) {

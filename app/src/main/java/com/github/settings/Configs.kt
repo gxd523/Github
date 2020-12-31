@@ -11,6 +11,7 @@ object Configs {
         const val clientSecret = "6858505801777dd721a1a1ba87c7cdeec1d87b22"
         const val note = "kotliner.cn"
         const val noteUrl = "http://www.kotliner.cn"
+        const val callbackUrl = "http://localhost:9527/oauth/callback/github"
 
         val fingerPrint by lazy {
             (AppContext.deviceId + clientId).also { logger.info("fingerPrint: " + it) }
