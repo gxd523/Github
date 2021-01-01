@@ -1,14 +1,14 @@
 package com.github.account
 
-import com.github.network.entities.AuthorizationRequest
-import com.github.network.entities.AuthorizationResponse
+import com.github.network.entities.AccessTokenRequest
+import com.github.network.entities.DeviceAndUserCodeRequest
+import com.github.network.entities.DeviceAndUserCodeResponse
 import com.github.network.entities.User
 import com.github.network.services.AuthService
 import com.github.network.services.UserService
 import com.github.util.fromJson
 import com.github.util.sp
 import com.google.gson.Gson
-import retrofit2.HttpException
 import rx.Observable
 
 interface OnAccountStateChangeListener {
@@ -18,14 +18,11 @@ interface OnAccountStateChangeListener {
 }
 
 object AccountManager {
-    var authId by sp(-1)
-    var username by sp("")
-    var password by sp("")
     var token by sp("")
 
     private var userJson by sp("")
 
-    private var currentUser: User? = null
+    internal var currentUser: User? = null
         get() {
             if (field == null && userJson.isNotEmpty()) {
                 field = Gson().fromJson<User>(userJson)
@@ -41,7 +38,7 @@ object AccountManager {
             field = value
         }
 
-    private val onAccountStateChangeListeners = ArrayList<OnAccountStateChangeListener>()
+    internal val onAccountStateChangeListeners = ArrayList<OnAccountStateChangeListener>()
 
     private fun notifyLogin(user: User) {
         onAccountStateChangeListeners.forEach {
@@ -53,39 +50,44 @@ object AccountManager {
         onAccountStateChangeListeners.forEach { it.onLogout() }
     }
 
-    fun isLoggedIn(): Boolean = token.isNotEmpty()
+    fun isLoggedIn(): Boolean = currentUser != null
 
-    fun login() = AuthService.createAuthorization(AuthorizationRequest())
-        .doOnNext {
-            if (it.token.isEmpty()) throw AccountException(it)
-        }.retryWhen {
-            it.flatMap { throwable ->
-                if (throwable is AccountException) {
-                    AuthService.deleteAuthorization(throwable.authorizationRsp.id)
-                } else {
-                    Observable.error(throwable)
+    fun requestDeviceAndUserCode(): Observable<DeviceAndUserCodeResponse> = AuthService.getDeviceAndUserCode(DeviceAndUserCodeRequest())
+        .map {
+            var device_code = ""
+            var user_code = ""
+            var verification_uri = ""
+            var expires_in: Int = -1
+            var interval: Int = -1
+            it.string().split("&").forEach {
+                val keyValue = it.split("=")
+                when (keyValue[0]) {
+                    "device_code" -> device_code = keyValue[1]
+                    "user_code" -> user_code = keyValue[1]
+                    "verification_uri" -> verification_uri = keyValue[1].replace("%3A", ":").replace("%2F", "/")
+                    "expires_in" -> expires_in = keyValue[1].toInt()
+                    "interval" -> interval = keyValue[1].toInt()
                 }
             }
-        }.flatMap {
-            token = it.token
-            authId = it.id
-            UserService.getAuthenticatedUser()
-        }.map {
+            DeviceAndUserCodeResponse(device_code, user_code, verification_uri, expires_in, interval)
+        }
+
+    fun requestAccessToken(device_code: String) = AuthService.getAccessToken(AccessTokenRequest(device_code = device_code))
+
+    fun getUser(): Observable<User> = UserService.getAuthenticatedUser()
+        .doOnError {
+            logout()
+        }
+        .map {
             currentUser = it
             notifyLogin(it)
+            it
         }
 
-    fun logout() = AuthService.deleteAuthorization(authId)
-        .doOnNext {
-            if (it.isSuccessful) {
-                authId = -1
-                token = ""
-                currentUser = null
-                notifyLogout()
-            } else {
-                throw HttpException(it)
-            }
+    fun logout() {
+        if (currentUser != null) {
+            currentUser = null
+            notifyLogout()
         }
-
-    class AccountException(val authorizationRsp: AuthorizationResponse) : Exception("Already logged in.")
+    }
 }

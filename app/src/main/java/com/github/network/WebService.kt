@@ -15,8 +15,6 @@ import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = "https://api.github.com"
-
 private val cacheFile by lazy {
     File(AppContext.cacheDir, "webServiceApi").apply { ensureDir() }
 }
@@ -30,11 +28,28 @@ val retrofit by lazy {
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .cache(Cache(cacheFile, 1024 * 1024 * 1024))
+//            .addInterceptor(AcceptInterceptor())
+//            .addInterceptor(AuthInterceptor())
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+        )
+        .baseUrl("https://github.com")
+        .build()
+}
+val retrofit1 by lazy {
+    Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJavaCallAdapterFactory2.createWithSchedulers(Schedulers.io(), AndroidSchedulers.mainThread()))
+        .client(OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .cache(Cache(cacheFile, 1024 * 1024 * 1024))
             .addInterceptor(AcceptInterceptor())
             .addInterceptor(AuthInterceptor())
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
         )
-        .baseUrl(BASE_URL)
+        .baseUrl("https://api.github.com")
         .build()
 }

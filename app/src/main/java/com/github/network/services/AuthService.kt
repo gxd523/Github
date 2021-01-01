@@ -1,25 +1,19 @@
 package com.github.network.services
 
-import com.github.network.entities.AuthorizationRequest
-import com.github.network.entities.AuthorizationResponse
+import com.github.network.entities.AccessTokenRequest
+import com.github.network.entities.DeviceAndUserCodeRequest
 import com.github.network.retrofit
-import com.github.settings.Configs
-import retrofit2.Response
+import okhttp3.ResponseBody
 import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import retrofit2.http.POST
 import rx.Observable
 
 interface AuthApi {
-    @PUT("/authorizations/clients/${Configs.Account.clientId}/{fingerPrint}")
-    fun createAuthorization(
-        @Body request: AuthorizationRequest,
-        @Path("fingerPrint") fingerPrint: String = Configs.Account.fingerPrint,
-    ): Observable<AuthorizationResponse>
+    @POST("/login/device/code")
+    fun getDeviceAndUserCode(@Body request: DeviceAndUserCodeRequest): Observable<ResponseBody>
 
-    @DELETE("/authorizations/{id}")
-    fun deleteAuthorization(@Path("id") id: Int): Observable<Response<Any>>
+    @POST("/login/oauth/access_token")
+    fun getAccessToken(@Body request: AccessTokenRequest): Observable<ResponseBody>
 }
 
 object AuthService : AuthApi by retrofit.create(AuthApi::class.java)

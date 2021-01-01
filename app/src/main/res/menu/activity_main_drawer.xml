@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navAbout"
+            android:icon="@drawable/ic_about_us"
+            android:title="About" />
+        <item
+            android:id="@+id/navDsl"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="Dsl" />
+    </group>
+</menu>

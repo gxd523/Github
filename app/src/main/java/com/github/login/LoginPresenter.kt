@@ -1,42 +1,76 @@
 package com.github.login
 
-import android.os.Looper
-import com.github.BuildConfig
-import com.github.LoginActivity
+import android.util.Log
 import com.github.account.AccountManager
-import com.github.common.otherwise
-import com.github.common.yes
 import com.github.mvp.impl.BasePresenter
+import com.github.network.entities.DeviceAndUserCodeResponse
+import com.github.ui.login.LoginActivity
+import rx.Observable
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class LoginPresenter : BasePresenter<LoginActivity>() {
-    fun doLogin(username: String, password: String) {
-        AccountManager.username = username
-        AccountManager.password = password
-        viewer.onLoginStart()
-        AccountManager.login()
-            .subscribe({
-                viewer.onLoginSuccess()
-            }, {
-                viewer.onLoginError(it)
-            })
+    fun getDeviceAndUserCode(action: (DeviceAndUserCodeResponse) -> Unit) {
+        AccountManager.requestDeviceAndUserCode()
+            .subscribe(
+                {
+                    Log.d("gxd", "device user code...$it")
+                    action(it)
+                }, {
+                    Log.d("gxd", "device user code error...${it.message}")
+                }
+            )
     }
 
-    fun checkUsername(username: String): Boolean = true
+    fun getAccessToken(device_code: String, action: () -> Unit) {
+        requestAccessTokenDelay(device_code, action, 5, 10)
+    }
 
-    fun checkPassword(password: String): Boolean = true
-
-    override fun onResume() {
-        super.onResume()
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            Looper.getMainLooper().queue
-        } else {
-            Looper.myQueue()
-        }.addIdleHandler {
-            viewer.setData(
-                BuildConfig.DEBUG.yes { BuildConfig.debugUsername }.otherwise { AccountManager.username },
-                BuildConfig.DEBUG.yes { BuildConfig.debugPassword }.otherwise { AccountManager.password },
+    private fun requestAccessTokenDelay(device_code: String, action: () -> Unit, delay: Long, remainTime: Int) {
+        Observable.timer(delay, TimeUnit.SECONDS)
+            .flatMap {
+                AccountManager.requestAccessToken(device_code)
+            }
+            .map {
+                it.string()
+            }
+            .subscribe(
+                {
+                    if (it.isEmpty() || it.contains("error")) {
+                        var nextDelay = 5L
+                        if (it.contains("&interval=")) {
+                            nextDelay = it.substring(it.indexOf("&interval=") + 10).toLong()
+                        }
+                        requestAccessTokenDelay(device_code, action, nextDelay, remainTime - 1)
+                        return@subscribe
+                    }
+                    var token = ""
+                    it.split("&").forEach {
+                        val split = it.split("=")
+                        if ("access_token" == split[0]) {
+                            token = split[1]
+                            return@forEach
+                        }
+                    }
+                    AccountManager.token = token
+                    Log.d("gxd", "access token...$it")
+                    action()
+                }, {
+                    Log.d("gxd", "access token error....${it.message}")
+                }
             )
-            false
-        }
+    }
+
+    fun getUser(succeed: () -> Unit, error: (Throwable) -> Unit) {
+        AccountManager.getUser()
+            .subscribe(
+                {
+                    Log.d("gxd", "user...${it}")
+                    succeed()
+                }, {
+                    Log.d("gxd", "user error...${it.message}")
+                    error(it)
+                }
+            )
     }
 }

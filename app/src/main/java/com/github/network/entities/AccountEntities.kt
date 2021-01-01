@@ -4,27 +4,23 @@ import com.github.common.anno.PoKo
 import com.github.settings.Configs
 
 @PoKo
-data class AuthorizationRequest(
-    var scopes: List<String> = Configs.Account.SCOPES,
-    var note: String = Configs.Account.note,
-    var note_url: String = Configs.Account.noteUrl,
-    var client_secret: String = Configs.Account.clientSecret,
+data class DeviceAndUserCodeResponse(
+    var device_code: String,
+    var user_code: String,
+    var verification_uri: String,
+    var expires_in: Int,
+    var interval: Int,
 )
 
 @PoKo
-data class AuthorizationResponse(
-    var id: Int,
-    var url: String,
-    var app: App,
-    var token: String,
-    var hashed_token: String,
-    var token_last_eight: String,
-    var note: String,
-    var note_url: String,
-    var created_at: String,
-    var updated_at: String,
-    var scopes: List<String>,
+data class AccessTokenRequest(
+    var client_id: String = Configs.Account.clientId,
+    var device_code: String,
+    var grant_type: String = "urn:ietf:params:oauth:grant-type:device_code",
 )
 
 @PoKo
-data class App(var name: String, var url: String, var client_id: String)
+data class DeviceAndUserCodeRequest(
+    var client_id: String = Configs.Account.clientId,
+    var scope: String = Configs.Account.scope,
+)

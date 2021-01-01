@@ -8,9 +8,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class User(
     var login: String,
+    var id: Int,
     var avatar_url: String,
     var html_url: String,
-    var id: Int,
     var type: String,
     var site_admin: Boolean,
     var name: String?,
