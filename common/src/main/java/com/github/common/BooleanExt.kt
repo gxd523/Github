@@ -1,5 +1,6 @@
 package com.github.common
 
+// TODO: 1/2/21 重点：密封类+扩展函数+高阶函数
 sealed class BooleanExt<out T>
 
 object Otherwise : BooleanExt<Nothing>()

@@ -4,6 +4,7 @@ import android.content.Context
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+// TODO: 1/2/21 重点：属性代理
 class SpExt<T>(
     context: Context,
     private val defaultValue: T,

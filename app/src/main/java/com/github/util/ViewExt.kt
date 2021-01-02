@@ -8,9 +8,7 @@ import com.zzhoujay.richtext.RichText
 import org.jetbrains.anko.AnkoViewDslMarker
 import org.jetbrains.anko.custom.ankoView
 
-/**
- * Created by benny on 10/15/17.
- */
+// TODO: 1/2/21 重点：扩展属性
 var TextView.markdownText: String
     set(value) {
         RichText.fromMarkdown(value).into(this)

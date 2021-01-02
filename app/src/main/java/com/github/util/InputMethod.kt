@@ -1,4 +1,4 @@
-package com.bennyhuo.common.ext
+package com.github.util
 
 import android.app.Activity
 import android.content.Context

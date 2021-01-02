@@ -6,9 +6,7 @@ import com.github.common.otherwise
 import com.github.common.yes
 import com.google.android.material.navigation.NavigationView
 
-/**
- * Created by benny on 7/6/17.
- */
+// TODO: 1/2/21 重点：扩展函数+高阶函数
 inline fun NavigationView.doOnLayoutAvailable(crossinline block: () -> Unit) {
     ViewCompat.isLaidOut(this).yes {
         block()
