@@ -1,6 +1,6 @@
 package com.github.network.interceptors
 
-import com.github.account.AccountManager
+import com.github.model.account.AccountManager
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Response

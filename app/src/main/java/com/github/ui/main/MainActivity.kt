@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.bennyhuo.tieguanyin.annotations.Builder
 import com.github.R
-import com.github.account.AccountManager
-import com.github.account.OnAccountStateChangeListener
 import com.github.common.no
 import com.github.common.otherwise
+import com.github.model.account.AccountManager
+import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
 import com.github.ui.about.AboutFragment
 import com.github.ui.login.startLoginActivity

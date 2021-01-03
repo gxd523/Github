@@ -120,39 +120,45 @@ public final class RxJavaCallAdapterFactory2 extends CallAdapter.Factory {
         }
 
         if (isCompletable) {
-            return new RxJavaCallAdapter2(Void.class, schedulerSubscribeOn, schedulerObserveOn, isAsync, false, true, false, true);
+            return new RxJavaCallAdapter2(Void.class, schedulerSubscribeOn, schedulerObserveOn, isAsync, false, true, false, false, true);
         }
 
         boolean isResult = false;
         boolean isBody = false;
+        boolean isPaging = false;
         Type responseType;
         if (!(returnType instanceof ParameterizedType)) {
             String name = isSingle ? "Single" : "Observable";
-            throw new IllegalStateException(name + " return type must be parameterized"
-                    + " as " + name + "<Foo> or " + name + "<? extends Foo>");
+            throw new IllegalStateException(name + " return type must be parameterized as " + name + "<Foo> or " + name + "<? extends Foo>");
         }
 
         Type observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
         Class<?> rawObservableType = getRawType(observableType);
         if (rawObservableType == Response.class) {
             if (!(observableType instanceof ParameterizedType)) {
-                throw new IllegalStateException("Response must be parameterized"
-                        + " as Response<Foo> or Response<? extends Foo>");
+                throw new IllegalStateException("Response must be parameterized as Response<Foo> or Response<? extends Foo>");
             }
             responseType = getParameterUpperBound(0, (ParameterizedType) observableType);
         } else if (rawObservableType == Result.class) {
             if (!(observableType instanceof ParameterizedType)) {
-                throw new IllegalStateException("Result must be parameterized"
-                        + " as Result<Foo> or Result<? extends Foo>");
+                throw new IllegalStateException("Result must be parameterized as Result<Foo> or Result<? extends Foo>");
             }
             responseType = getParameterUpperBound(0, (ParameterizedType) observableType);
             isResult = true;
+        } else if (rawObservableType == GitHubPaging.class) {
+            if (!(observableType instanceof ParameterizedType)) {
+                throw new IllegalStateException("Result must be parameterized as GitHubPaging<Foo> or GitHubPaging<? extends Foo>");
+            }
+            responseType = observableType;
+            isPaging = true;
+        } else if (PagingWrapper.class.isAssignableFrom(rawObservableType)) {
+            responseType = observableType;
+            isPaging = true;
         } else {
             responseType = observableType;
             isBody = true;
         }
 
-        return new RxJavaCallAdapter2(responseType, schedulerSubscribeOn, schedulerObserveOn, isAsync, isResult, isBody, isSingle,
-                false);
+        return new RxJavaCallAdapter2(responseType, schedulerSubscribeOn, schedulerObserveOn, isAsync, isResult, isBody, isPaging, isSingle, false);
     }
 }

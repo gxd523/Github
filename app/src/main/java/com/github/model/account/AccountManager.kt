@@ -1,4 +1,4 @@
-package com.github.account
+package com.github.model.account
 
 import com.github.network.entities.AccessTokenRequest
 import com.github.network.entities.DeviceAndUserCodeRequest
@@ -52,25 +52,26 @@ object AccountManager {
 
     fun isLoggedIn(): Boolean = currentUser != null
 
-    fun requestDeviceAndUserCode(): Observable<DeviceAndUserCodeResponse> = AuthService.getDeviceAndUserCode(DeviceAndUserCodeRequest())
-        .map {
-            var device_code = ""
-            var user_code = ""
-            var verification_uri = ""
-            var expires_in: Int = -1
-            var interval: Int = -1
-            it.string().split("&").forEach {
-                val keyValue = it.split("=")
-                when (keyValue[0]) {
-                    "device_code" -> device_code = keyValue[1]
-                    "user_code" -> user_code = keyValue[1]
-                    "verification_uri" -> verification_uri = keyValue[1].replace("%3A", ":").replace("%2F", "/")
-                    "expires_in" -> expires_in = keyValue[1].toInt()
-                    "interval" -> interval = keyValue[1].toInt()
+    fun requestDeviceAndUserCode(): Observable<DeviceAndUserCodeResponse> =
+        AuthService.getDeviceAndUserCode(DeviceAndUserCodeRequest())
+            .map {
+                var device_code = ""
+                var user_code = ""
+                var verification_uri = ""
+                var expires_in: Int = -1
+                var interval: Int = -1
+                it.string().split("&").forEach {
+                    val keyValue = it.split("=")
+                    when (keyValue[0]) {
+                        "device_code" -> device_code = keyValue[1]
+                        "user_code" -> user_code = keyValue[1]
+                        "verification_uri" -> verification_uri = keyValue[1].replace("%3A", ":").replace("%2F", "/")
+                        "expires_in" -> expires_in = keyValue[1].toInt()
+                        "interval" -> interval = keyValue[1].toInt()
+                    }
                 }
+                DeviceAndUserCodeResponse(device_code, user_code, verification_uri, expires_in, interval)
             }
-            DeviceAndUserCodeResponse(device_code, user_code, verification_uri, expires_in, interval)
-        }
 
     fun requestAccessToken(device_code: String) = AuthService.getAccessToken(AccessTokenRequest(device_code = device_code))
 

@@ -15,7 +15,7 @@ fun View.showSoftInput(): Boolean {
 }
 
 fun Activity.showSoftInput(): Boolean {
-    return currentFocus?.showSoftInput()?: false
+    return currentFocus?.showSoftInput() ?: false
 }
 
 fun View.hideSoftInput(): Boolean {
@@ -23,7 +23,7 @@ fun View.hideSoftInput(): Boolean {
 }
 
 fun Activity.hideSoftInput(): Boolean {
-    return currentFocus?.hideSoftInput()?: false
+    return currentFocus?.hideSoftInput() ?: false
 }
 
 fun Context.isActive(): Boolean {

@@ -15,41 +15,37 @@ import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 
+val authRetrofit by lazy {
+    val clientBuilder = createClientBuilder()
+    createRetrofitBuilder(clientBuilder.build())
+        .baseUrl("https://github.com")
+        .build()
+}
+
+val retrofit by lazy {
+    val clientBuilder = createClientBuilder()
+    clientBuilder.apply {
+        addInterceptor(AcceptInterceptor())
+        addInterceptor(AuthInterceptor())
+    }
+    createRetrofitBuilder(clientBuilder.build())
+        .baseUrl("https://api.github.com")
+        .build()
+}
+
 private val cacheFile by lazy {
     File(AppContext.cacheDir, "webServiceApi").apply { ensureDir() }
 }
 
-val retrofit by lazy {
-    Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJavaCallAdapterFactory2.createWithSchedulers(Schedulers.io(), AndroidSchedulers.mainThread()))
-        .client(OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .cache(Cache(cacheFile, 1024 * 1024 * 1024))
-//            .addInterceptor(AcceptInterceptor())
-//            .addInterceptor(AuthInterceptor())
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .build()
-        )
-        .baseUrl("https://github.com")
-        .build()
-}
-val retrofit1 by lazy {
-    Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJavaCallAdapterFactory2.createWithSchedulers(Schedulers.io(), AndroidSchedulers.mainThread()))
-        .client(OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .cache(Cache(cacheFile, 1024 * 1024 * 1024))
-            .addInterceptor(AcceptInterceptor())
-            .addInterceptor(AuthInterceptor())
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .build()
-        )
-        .baseUrl("https://api.github.com")
-        .build()
-}
+private fun createClientBuilder() = OkHttpClient.Builder()
+    .connectTimeout(60, TimeUnit.SECONDS)
+    .readTimeout(60, TimeUnit.SECONDS)
+    .writeTimeout(60, TimeUnit.SECONDS)
+    .cache(Cache(cacheFile, 50 * 1024 * 1024))
+    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+
+
+private fun createRetrofitBuilder(client: OkHttpClient) = Retrofit.Builder()
+    .addConverterFactory(GsonConverterFactory.create())
+    .addCallAdapterFactory(RxJavaCallAdapterFactory2.createWithSchedulers(Schedulers.io(), AndroidSchedulers.mainThread()))
+    .client(client)

@@ -1,8 +1,8 @@
 package com.github.network.services
 
+import com.github.network.authRetrofit
 import com.github.network.entities.AccessTokenRequest
 import com.github.network.entities.DeviceAndUserCodeRequest
-import com.github.network.retrofit
 import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -16,4 +16,4 @@ interface AuthApi {
     fun getAccessToken(@Body request: AccessTokenRequest): Observable<ResponseBody>
 }
 
-object AuthService : AuthApi by retrofit.create(AuthApi::class.java)
+object AuthService : AuthApi by authRetrofit.create(AuthApi::class.java)

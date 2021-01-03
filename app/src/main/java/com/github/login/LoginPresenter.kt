@@ -1,7 +1,7 @@
 package com.github.login
 
 import android.util.Log
-import com.github.account.AccountManager
+import com.github.model.account.AccountManager
 import com.github.mvp.impl.BasePresenter
 import com.github.network.entities.DeviceAndUserCodeResponse
 import com.github.ui.login.LoginActivity
