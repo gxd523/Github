@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <RelativeLayout
+        android:id="@+id/titleContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iconView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            tools:src="@drawable/ic_issue_open" />
+
+        <LinearLayout
+            android:id="@+id/commentCountContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_speech_bubble" />
+
+            <TextView
+                android:id="@+id/commentCount"
+                style="@style/list_item_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="4" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/commentCountContainer"
+            android:layout_toRightOf="@id/iconView"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleView"
+                style="@style/list_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                tools:text="有一个 Bug！！" />
+
+
+            <TextView
+                android:id="@+id/bodyView"
+                style="@style/list_item_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="另外，报错拍摄方向与用户选择的link是否一致也是一个需要关注的点，报错拍摄视频的方向角，也需显示出来，辅助判断" />
+
+            <TextView
+                android:id="@+id/timeView"
+                style="@style/list_item_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="2017-09-19 12:23" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/labelContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleContainer"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+</RelativeLayout>

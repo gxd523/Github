@@ -1,4 +1,4 @@
-package com.github.login
+package com.github.presenter
 
 import android.util.Log
 import com.github.model.account.AccountManager

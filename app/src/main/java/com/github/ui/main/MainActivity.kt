@@ -9,29 +9,36 @@ import com.bennyhuo.tieguanyin.annotations.Builder
 import com.github.R
 import com.github.common.no
 import com.github.common.otherwise
+import com.github.common.yes
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
-import com.github.ui.about.AboutFragment
 import com.github.ui.login.startLoginActivity
-import com.github.util.doOnLayoutAvailable
-import com.github.util.loadWithGlide
+import com.github.ui.view.config.NavViewItem
+import com.github.ui.view.widget.ActionBarController
+import com.github.ui.view.widget.NavigationController
+import com.github.util.afterClosed
 import com.github.util.showFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.sdk15.listeners.onClick
 
 @Builder(flags = [Intent.FLAG_ACTIVITY_CLEAR_TOP])
 class MainActivity : AppCompatActivity() {
+    val actionBarController by lazy {
+        ActionBarController(this)
+    }
+
+    private val navigationController by lazy {
+        NavigationController(navigationView, ::onNavItemChanged, ::handleNavigationHeaderClickEvent)
+    }
+
     private val accountListener by lazy {
         object : OnAccountStateChangeListener {
             override fun onLogin(user: User) {
-                updateNavigationView(user)
+                navigationController.useLoginLayout()
             }
 
             override fun onLogout() {
-                clearNavigationView()
+                navigationController.useNoLoginLayout()
             }
         }
     }
@@ -54,41 +61,33 @@ class MainActivity : AppCompatActivity() {
         initNavigationView()
 
         AccountManager.onAccountStateChangeListeners += accountListener
-
-        showFragment(R.id.fragmentContainer, AboutFragment::class.java)
     }
 
     private fun initNavigationView() {
-        AccountManager.currentUser?.let(::updateNavigationView) ?: clearNavigationView()
-        initNavigationHeaderEvent()
-    }
-
-    private fun initNavigationHeaderEvent() {
-        navigationView.doOnLayoutAvailable {
-            navigationHeader.onClick {
-                AccountManager.isLoggedIn().no {
-                    startLoginActivity()
-                }.otherwise {
-                    AccountManager.logout()
-                }
+        AccountManager.isLoggedIn()
+            .yes {
+                navigationController.useLoginLayout()
             }
+            .otherwise {
+                navigationController.useNoLoginLayout()
+            }
+        navigationController.selectProperItem()
+    }
+
+    private fun onNavItemChanged(navViewItem: NavViewItem) {
+        drawer_layout.afterClosed {
+            showFragment(R.id.fragmentContainer, navViewItem.fragmentClass, navViewItem.arguements)
+            title = navViewItem.title
         }
     }
 
-    private fun updateNavigationView(user: User) {
-        navigationView.doOnLayoutAvailable {
-            usernameView.text = user.login
-            emailView.text = user.email ?: user.html_url
-            avatarView.loadWithGlide(user.avatar_url, user.login.first())
+    private fun handleNavigationHeaderClickEvent() {
+        AccountManager.isLoggedIn().no {
+            startLoginActivity()
+        }.otherwise {
+            AccountManager.logout()
         }
-    }
 
-    private fun clearNavigationView() {
-        navigationView.doOnLayoutAvailable {
-            usernameView.text = "请登录"
-            emailView.text = ""
-            avatarView.imageResource = R.drawable.ic_github
-        }
     }
 
     override fun onBackPressed() {

@@ -1,0 +1,23 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:transitionName="userHead">
+
+    <cn.carbs.android.avatarimageview.library.AvatarImageView
+        android:id="@+id/avatarView"
+        style="@style/list_item_avatar"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_github" />
+
+    <TextView
+        android:id="@+id/nameView"
+        style="@style/list_item_title"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/avatarView"
+        android:padding="10dp"
+        tools:text="Foo" />
+
+</RelativeLayout>

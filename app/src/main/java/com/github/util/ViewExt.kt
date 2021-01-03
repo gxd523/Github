@@ -15,6 +15,11 @@ var TextView.markdownText: String
     }
     get() = text.toString()
 
+var TextView.htmlText: String
+    set(value) {
+        RichText.fromHtml(value).into(this)
+    }
+    get() = text.toString()
 
 fun ViewManager.avatarImageView(): AvatarImageView = avatarImageView {}
 inline fun ViewManager.avatarImageView(init: (@AnkoViewDslMarker AvatarImageView).() -> Unit): AvatarImageView {

@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.view.View
 import com.bennyhuo.tieguanyin.annotations.Builder
 import com.github.R
-import com.github.login.LoginPresenter
 import com.github.mvp.impl.BaseActivity
+import com.github.presenter.LoginPresenter
 import com.github.ui.main.startMainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
