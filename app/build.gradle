@@ -3,9 +3,18 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'kotlin-noarg'
+    id 'kotlin-allopen'
 }
 
 apply from: '../local.gradle'
+
+noArg {
+    annotation("com.github.common.anno.PoKo")
+}
+allOpen {
+    annotation("com.github.common.anno.PoKo")
+}
 
 android {
     compileSdkVersion 30
