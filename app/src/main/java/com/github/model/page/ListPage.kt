@@ -9,12 +9,11 @@ abstract class ListPage<DataType> : DataProvider<DataType> {
         const val PAGE_SIZE = 20
     }
 
-    var currentPage = 1
-        private set
+    private var currentPage = 1
 
     val data = GitHubPaging<DataType>()
 
-    fun loadMore() = getData(currentPage + 1)
+    fun loadMore(): Observable<GitHubPaging<DataType>> = getData(currentPage + 1)
         .doOnNext {
             currentPage + 1
         }
@@ -26,7 +25,10 @@ abstract class ListPage<DataType> : DataProvider<DataType> {
             data
         }
 
-    fun loadFromFirst(pageCount: Int = currentPage) =
+    /**
+     * 加载前pageCount页
+     */
+    fun loadFromFirst(pageCount: Int = currentPage): Observable<GitHubPaging<DataType>> =
         Observable.range(1, pageCount)
             .concatMap {
                 getData(it)

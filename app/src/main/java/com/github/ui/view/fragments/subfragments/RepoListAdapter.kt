@@ -1,16 +1,16 @@
 package com.github.ui.view.fragments.subfragments
 
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.github.R
-import com.github.network.entities.Repository
 import com.github.common.CommonListAdapter
-import com.github.common.CommonViewHolder
+import com.github.network.entities.Repository
 import com.github.util.loadWithGlide
 import com.github.util.toKilo
 import kotlinx.android.synthetic.main.item_repo.view.*
 
 class RepoListAdapter : CommonListAdapter<Repository>(R.layout.item_repo) {
-    override fun onBindData(viewHolder: CommonViewHolder, item: Repository) {
+    override fun onBindData(viewHolder: RecyclerView.ViewHolder, item: Repository) {
         viewHolder.itemView.apply {
             avatarView.loadWithGlide(item.owner.avatar_url, item.owner.login.first())
             repoNameView.text = item.name

@@ -19,7 +19,7 @@ abstract class BaseActivity<out Presenter : BasePresenter<BaseActivity<Presenter
         presenter.viewer = this
     }
 
-    private fun createPresenter(): Presenter {
+    private fun createPresenter(): Presenter {// TODO: 1/4/21 重点：java反射，获取泛型类型
         sequence<Type> {
             var thisClass: Class<*> = this@BaseActivity.javaClass
             while (true) {
@@ -39,7 +39,7 @@ abstract class BaseActivity<out Presenter : BasePresenter<BaseActivity<Presenter
         }
     }
 
-    private fun createPresenterKt(): Presenter {
+    private fun createPresenterKt(): Presenter {// TODO: 1/4/21 重点：kotlin反射，获取泛型类型
         sequence {
             var thisClass: KClass<*> = this@BaseActivity::class
             while (true) {

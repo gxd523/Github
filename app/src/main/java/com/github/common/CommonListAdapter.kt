@@ -10,7 +10,7 @@ import com.github.R
 import com.github.common.log.logger
 import com.github.util.AdapterList
 
-abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerView.Adapter<CommonViewHolder>() {
+abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     init {
         setHasStableIds(true)// 让item有自己的id
     }
@@ -21,7 +21,7 @@ abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerVie
         return position.toLong()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemView: ViewGroup = inflater.inflate(R.layout.item_card, parent, false) as ViewGroup
         inflater.inflate(itemResId, itemView)
@@ -30,7 +30,7 @@ abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerVie
         }
     }
 
-    override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         onBindData(holder, dataList[position])
     }
 
@@ -40,8 +40,8 @@ abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerVie
 
     private var oldPosition = -1
 
-    override fun onViewAttachedToWindow(holder: CommonViewHolder) {
-        if (holder.layoutPosition > oldPosition) {// TODO: 1/4/21 重点：列表动画，牛逼
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        if (holder is CommonViewHolder && holder.layoutPosition > oldPosition) {// TODO: 1/4/21 重点：列表动画，牛逼
             logger.debug("${holder.layoutPosition} > $oldPosition")
             ObjectAnimator
                 .ofFloat(holder.itemView, View.TRANSLATION_Y, 500f, 0f)
@@ -51,7 +51,7 @@ abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerVie
         }
     }
 
-    abstract fun onBindData(viewHolder: CommonViewHolder, item: T)
+    abstract fun onBindData(viewHolder: RecyclerView.ViewHolder, item: T)
 
     abstract fun onItemClicked(itemView: View, item: T)
 }
