@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.github.R
-import com.github.common.log.logger
 import com.github.util.AdapterList
 
 abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -42,7 +41,6 @@ abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerVie
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         if (holder is CommonViewHolder && holder.layoutPosition > oldPosition) {// TODO: 1/4/21 重点：列表动画，牛逼
-            logger.debug("${holder.layoutPosition} > $oldPosition")
             ObjectAnimator
                 .ofFloat(holder.itemView, View.TRANSLATION_Y, 500f, 0f)
                 .setDuration(500)

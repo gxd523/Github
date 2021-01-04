@@ -7,9 +7,7 @@ import rx.Subscription
 abstract class CommonListPresenter<DataType, out Viewer : CommonListFragment<DataType, CommonListPresenter<DataType, Viewer>>> :
     BasePresenter<Viewer>() {
     abstract val listPage: ListPage<DataType>
-
     private var firstInView = true
-    private val subscriptionList = ArrayList<Subscription>()
 
     fun initData() {
         listPage.loadFromFirst()

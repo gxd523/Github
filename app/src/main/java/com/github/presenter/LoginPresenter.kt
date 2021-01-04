@@ -19,7 +19,7 @@ class LoginPresenter : BasePresenter<LoginActivity>() {
                 }, {
                     Log.d("gxd", "device user code error...${it.message}")
                 }
-            )
+            ).let(subscriptionList::add)
     }
 
     fun getAccessToken(device_code: String, action: () -> Unit) {
@@ -45,8 +45,8 @@ class LoginPresenter : BasePresenter<LoginActivity>() {
                         return@subscribe
                     }
                     var token = ""
-                    it.split("&").forEach {
-                        val split = it.split("=")
+                    it.split("&").forEach { keyValueString ->
+                        val split = keyValueString.split("=")
                         if ("access_token" == split[0]) {
                             token = split[1]
                             return@forEach
@@ -58,7 +58,7 @@ class LoginPresenter : BasePresenter<LoginActivity>() {
                 }, {
                     Log.d("gxd", "access token error....${it.message}")
                 }
-            )
+            ).let(subscriptionList::add)
     }
 
     fun getUser(succeed: () -> Unit, error: (Throwable) -> Unit) {
@@ -71,6 +71,6 @@ class LoginPresenter : BasePresenter<LoginActivity>() {
                     Log.d("gxd", "user error...${it.message}")
                     error(it)
                 }
-            )
+            ).let(subscriptionList::add)
     }
 }
