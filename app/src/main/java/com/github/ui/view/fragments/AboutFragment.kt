@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.R
-import com.github.ui.view.common.CommonSinglePageFragment
+import com.github.common.CommonSinglePageFragment
 import com.github.util.markdownText
 import org.jetbrains.anko.*
 import org.jetbrains.anko.AnkoContext.Companion

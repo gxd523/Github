@@ -1,15 +1,15 @@
-package com.github.ui.view.common
+package com.github.common
 
 import com.github.model.page.ListPage
 import com.github.mvp.impl.BasePresenter
 import rx.Subscription
 
-abstract class CommonListPresenter<DataType, out View : CommonListFragment<DataType, CommonListPresenter<DataType, View>>> :
-    BasePresenter<View>() {
+abstract class CommonListPresenter<DataType, out Viewer : CommonListFragment<DataType, CommonListPresenter<DataType, Viewer>>> :
+    BasePresenter<Viewer>() {
     abstract val listPage: ListPage<DataType>
 
     private var firstInView = true
-    private val subcriptionList = ArrayList<Subscription>()
+    private val subscriptionList = ArrayList<Subscription>()
 
     fun initData() {
         listPage.loadFromFirst()
@@ -17,7 +17,7 @@ abstract class CommonListPresenter<DataType, out View : CommonListFragment<DataT
                 if (it.isEmpty()) viewer.onDataInitWithNothing() else viewer.onDataInit(it)
             }, {
                 viewer.onDataInitWithError(it.message ?: it.toString())
-            }).let(subcriptionList::add)
+            }).let(subscriptionList::add)
     }
 
     fun refreshData() {
@@ -25,7 +25,7 @@ abstract class CommonListPresenter<DataType, out View : CommonListFragment<DataT
             .subscribe(
                 { if (it.isEmpty()) viewer.onDataInitWithNothing() else viewer.onDataRefresh(it) },
                 { viewer.onDataRefreshWithError(it.message ?: it.toString()) }
-            ).let(subcriptionList::add)
+            ).let(subscriptionList::add)
     }
 
     fun loadMore() {
@@ -33,7 +33,7 @@ abstract class CommonListPresenter<DataType, out View : CommonListFragment<DataT
             .subscribe(
                 { viewer.onMoreDataLoaded(it) },
                 { viewer.onMoreDataLoadedWithError(it.message ?: it.toString()) }
-            ).let(subcriptionList::add)
+            ).let(subscriptionList::add)
     }
 
     override fun onResume() {
@@ -46,7 +46,7 @@ abstract class CommonListPresenter<DataType, out View : CommonListFragment<DataT
 
     override fun onDestroy() {
         super.onDestroy()
-        subcriptionList.forEach(Subscription::unsubscribe)
-        subcriptionList.clear()
+        subscriptionList.forEach(Subscription::unsubscribe)
+        subscriptionList.clear()
     }
 }

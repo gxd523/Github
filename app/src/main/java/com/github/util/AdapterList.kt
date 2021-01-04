@@ -21,14 +21,11 @@ class AdapterList<T>(val adapter: RecyclerView.Adapter<*>) : ArrayList<T>() {
     }
 
     override fun add(index: Int, element: T) {
-        super.add(index, element)
-        adapter.notifyItemInserted(index)
+        super.add(index, element).apply { adapter.notifyItemInserted(index) }
     }
 
     override fun add(element: T): Boolean {
-        return super.add(element).apply {
-            adapter.notifyItemInserted(size - 1)
-        }
+        return super.add(element).apply { adapter.notifyItemInserted(size - 1) }
     }
 
     override fun addAll(elements: Collection<T>): Boolean {
@@ -46,13 +43,10 @@ class AdapterList<T>(val adapter: RecyclerView.Adapter<*>) : ArrayList<T>() {
     }
 
     override fun set(index: Int, element: T): T {
-        return super.set(index, element).also {
-            adapter.notifyDataSetChanged()
-        }
+        return super.set(index, element).apply { adapter.notifyDataSetChanged() }
     }
 
     override fun clear() {
-        super.clear()
-        adapter.notifyDataSetChanged()
+        super.clear().apply { adapter.notifyDataSetChanged() }
     }
 }

@@ -7,10 +7,4 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackgroundBorderless"
-    app:cardCornerRadius="5dp">
-
-    <FrameLayout
-        android:id="@+id/contentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</androidx.cardview.widget.CardView>
+    app:cardCornerRadius="5dp" />

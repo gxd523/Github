@@ -1,4 +1,4 @@
-package com.github.ui.view.common
+package com.github.common
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -51,8 +51,8 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
     }
 
     fun onDataInit(data: GitHubPaging<DataType>) {
-        adapter.data.clear()
-        adapter.data.addAll(data)
+        adapter.dataList.clear()
+        adapter.dataList.addAll(data)
         recyclerView.setNoMore(data.isLast)
         recyclerView.refreshComplete(ListPage.PAGE_SIZE)
         refreshView.isRefreshing = false
@@ -79,7 +79,7 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
     }
 
     fun onDataRefreshWithError(error: String) {
-        if (adapter.data.isEmpty()) {
+        if (adapter.dataList.isEmpty()) {
             showError(error)
             errorInfoView.onClick {
                 presenter.initData()
@@ -90,7 +90,7 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
     }
 
     fun onMoreDataLoaded(data: GitHubPaging<DataType>) {
-        adapter.data.update(data)
+        adapter.dataList.update(data)
         recyclerView.refreshComplete(ListPage.PAGE_SIZE)
         recyclerView.setNoMore(data.isLast)
         dismissError()

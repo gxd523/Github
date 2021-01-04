@@ -1,6 +1,6 @@
 package com.github.ui.view.fragments
 
-import com.github.ui.view.common.CommonViewPagerFragment
+import com.github.common.CommonViewPagerFragment
 import com.github.ui.view.config.FragmentPage
 import com.github.ui.view.fragments.subfragments.MyIssueListFragment
 

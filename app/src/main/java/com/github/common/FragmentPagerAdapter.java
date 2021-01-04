@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.ui.view.common;
+package com.github.common;
 
 import android.os.Parcelable;
 import android.util.Log;

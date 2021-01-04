@@ -1,4 +1,4 @@
-package com.github.ui.view.common
+package com.github.common
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

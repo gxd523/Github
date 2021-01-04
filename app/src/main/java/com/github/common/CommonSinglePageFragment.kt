@@ -1,4 +1,4 @@
-package com.github.ui.view.common
+package com.github.common
 
 import android.os.Bundle
 import android.view.View

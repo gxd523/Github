@@ -5,7 +5,7 @@ import com.bennyhuo.tieguanyin.annotations.Optional
 import com.bennyhuo.tieguanyin.annotations.Required
 import com.github.network.entities.User
 import com.github.presenter.PeopleListPresenter
-import com.github.ui.view.common.CommonListFragment
+import com.github.common.CommonListFragment
 
 /**
  * Created by benny on 7/9/17.

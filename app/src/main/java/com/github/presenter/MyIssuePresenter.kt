@@ -2,7 +2,7 @@ package com.github.presenter
 
 import com.github.model.issue.MyIssuePage
 import com.github.network.entities.Issue
-import com.github.ui.view.common.CommonListPresenter
+import com.github.common.CommonListPresenter
 import com.github.ui.view.fragments.subfragments.MyIssueListFragment
 
 /**
