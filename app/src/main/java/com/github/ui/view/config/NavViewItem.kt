@@ -9,7 +9,7 @@ import com.github.ui.about.AboutFragment
 import com.github.ui.view.fragments.MyIssueFragment
 import com.github.ui.view.fragments.PeopleFragment
 import com.github.ui.view.fragments.RepoFragment
-import com.github.ui.view.fragments.subfragments.RepoListFragmentBuilder
+import com.github.ui.view.fragments.subfragments.RepoListFragment
 
 class NavViewItem private constructor(
     val groupId: Int = 0,
@@ -25,7 +25,8 @@ class NavViewItem private constructor(
                 "Repository",
                 R.drawable.ic_repository,
                 RepoFragment::class.java,
-                Bundle().apply { putParcelable(RepoListFragmentBuilder.OPTIONAL_user, null) }),
+                Bundle().apply { putParcelable(RepoListFragment.OPTIONAL_user, null) }
+            ),
             R.id.navPeople to NavViewItem(0, "People", R.drawable.ic_people, PeopleFragment::class.java),
             R.id.navIssue to NavViewItem(0, "Issue", R.drawable.ic_issue, MyIssueFragment::class.java),
             R.id.navAbout to NavViewItem(0, "About", R.drawable.ic_about_us, AboutFragment::class.java)

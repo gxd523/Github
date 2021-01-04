@@ -21,7 +21,7 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
     BaseFragment<Presenter>() {
     protected abstract val adapter: CommonListAdapter<DataType>
 
-    protected val errorInfoView by lazy {
+    private val errorInfoView by lazy {
         ErrorInfoView(rootView)
     }
 
