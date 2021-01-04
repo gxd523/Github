@@ -15,14 +15,14 @@ import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-val authRetrofit by lazy {
+val authRetrofit: Retrofit by lazy {
     val clientBuilder = createClientBuilder()
     createRetrofitBuilder(clientBuilder.build())
         .baseUrl("https://github.com")
         .build()
 }
 
-val retrofit by lazy {
+val retrofit: Retrofit by lazy {
     val clientBuilder = createClientBuilder()
     clientBuilder.apply {
         addInterceptor(AcceptInterceptor())

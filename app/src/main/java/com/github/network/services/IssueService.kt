@@ -7,9 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import rx.Observable
 
-/**
- * Created by benny on 2/4/18.
- */
 interface IssueApi {
     @GET("/issues?filter=all&state=all")
     fun listIssuesOfAuthenticatedUser(

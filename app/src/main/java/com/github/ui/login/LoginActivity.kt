@@ -3,18 +3,16 @@ package com.github.ui.login
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.bennyhuo.tieguanyin.annotations.Builder
 import com.github.R
 import com.github.mvp.impl.BaseActivity
 import com.github.presenter.LoginPresenter
-import com.github.ui.main.startMainActivity
+import com.github.ui.main.MainActivity
+import com.github.util.launchActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 
-@Builder(flags = [Intent.FLAG_ACTIVITY_NO_HISTORY])
 class LoginActivity : BaseActivity<LoginPresenter>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +58,6 @@ class LoginActivity : BaseActivity<LoginPresenter>() {
     private fun onLoginSuccess() {
         showLoading(false)
         toast("登陆成功")
-        startMainActivity()
+        launchActivity<MainActivity>()
     }
 }

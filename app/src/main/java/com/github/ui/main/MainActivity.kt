@@ -1,11 +1,9 @@
 package com.github.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import com.bennyhuo.tieguanyin.annotations.Builder
 import com.github.R
 import com.github.common.no
 import com.github.common.otherwise
@@ -13,15 +11,15 @@ import com.github.common.yes
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
-import com.github.ui.login.startLoginActivity
+import com.github.ui.login.LoginActivity
 import com.github.ui.view.config.NavViewItem
 import com.github.ui.view.widget.ActionBarController
 import com.github.ui.view.widget.NavigationController
 import com.github.util.afterClosed
+import com.github.util.launchActivity
 import com.github.util.showFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-@Builder(flags = [Intent.FLAG_ACTIVITY_CLEAR_TOP])
 class MainActivity : AppCompatActivity() {
     val actionBarController by lazy {
         ActionBarController(this)
@@ -83,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleNavigationHeaderClickEvent() {
         AccountManager.isLoggedIn().no {
-            startLoginActivity()
+            launchActivity<LoginActivity>()
         }.otherwise {
             AccountManager.logout()
         }
