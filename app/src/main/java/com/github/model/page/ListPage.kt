@@ -1,6 +1,8 @@
 package com.github.model.page
 
 import com.github.common.log.logger
+import com.github.common.otherwise
+import com.github.common.yes
 import retrofit2.adapter.rxjava.GitHubPaging
 import rx.Observable
 
@@ -13,9 +15,15 @@ abstract class ListPage<DataType> : DataProvider<DataType> {
 
     val data = GitHubPaging<DataType>()
 
-    fun loadMore(): Observable<GitHubPaging<DataType>> = getData(currentPage + 1)
+    fun loadMore(): Observable<GitHubPaging<DataType>> = data.hasNext
+        .yes {
+            getData(currentPage + 1)
+        }
+        .otherwise {
+            getData(currentPage + 1)
+        }
         .doOnNext {
-            currentPage + 1
+            currentPage += 1
         }
         .doOnError {
             logger.error("loadMore Error", it)

@@ -11,7 +11,7 @@ import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter
 import com.github.model.page.ListPage
 import com.github.mvp.impl.BaseFragment
 import com.github.ui.view.widget.ErrorInfoView
-import kotlinx.android.synthetic.main.list.*
+import kotlinx.android.synthetic.main.common_list.*
 import org.jetbrains.anko.sdk15.listeners.onClick
 import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.toast
@@ -26,7 +26,7 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.list, container, false)
+        return inflater.inflate(R.layout.common_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

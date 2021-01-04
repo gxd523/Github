@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
@@ -10,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.github.jdsjlzx.recyclerview.FixLuRecyclerView
+        <com.github.jdsjlzx.recyclerview.LuRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</RelativeLayout>
+</FrameLayout>

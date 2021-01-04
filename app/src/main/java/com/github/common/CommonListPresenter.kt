@@ -7,15 +7,13 @@ import rx.Subscription
 abstract class CommonListPresenter<DataType, out Viewer : CommonListFragment<DataType, CommonListPresenter<DataType, Viewer>>> :
     BasePresenter<Viewer>() {
     abstract val listPage: ListPage<DataType>
-    private var firstInView = true
 
     fun initData() {
         listPage.loadFromFirst()
-            .subscribe({
-                if (it.isEmpty()) viewer.onDataInitWithNothing() else viewer.onDataInit(it)
-            }, {
-                viewer.onDataInitWithError(it.message ?: it.toString())
-            }).let(subscriptionList::add)
+            .subscribe(
+                { if (it.isEmpty()) viewer.onDataInitWithNothing() else viewer.onDataInit(it) },
+                { viewer.onDataInitWithError(it.message ?: it.toString()) }
+            ).let(subscriptionList::add)
     }
 
     fun refreshData() {
@@ -33,6 +31,8 @@ abstract class CommonListPresenter<DataType, out Viewer : CommonListFragment<Dat
                 { viewer.onMoreDataLoadedWithError(it.message ?: it.toString()) }
             ).let(subscriptionList::add)
     }
+
+    private var firstInView = true
 
     override fun onResume() {
         super.onResume()

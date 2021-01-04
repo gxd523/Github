@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.R
 import com.github.common.CommonListAdapter
 import com.github.network.entities.Repository
+import com.github.util.kilo
 import com.github.util.loadWithGlide
-import com.github.util.toKilo
 import kotlinx.android.synthetic.main.item_repo.view.*
 
 class RepoListAdapter : CommonListAdapter<Repository>(R.layout.item_repo) {
@@ -16,8 +16,8 @@ class RepoListAdapter : CommonListAdapter<Repository>(R.layout.item_repo) {
             repoNameView.text = item.name
             descriptionView.text = item.description
             langView.text = item.language ?: "Unknown"
-            starView.text = item.stargazers_count.toKilo()
-            forkView.text = item.forks_count.toKilo()
+            starView.text = item.stargazers_count.kilo
+            forkView.text = item.forks_count.kilo
         }
     }
 
