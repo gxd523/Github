@@ -2,7 +2,6 @@ package com.github.common.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import com.github.ui.main.PagerData
 import com.github.util.ViewPagerAdapterList

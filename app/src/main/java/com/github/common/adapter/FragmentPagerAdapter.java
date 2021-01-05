@@ -129,7 +129,7 @@ public abstract class FragmentPagerAdapter extends PagerAdapter {
         if (DEBUG) Log.v(TAG, "Detaching item #" + getItemId(position) + ": f=" + object
                 + " v=" + ((Fragment) object).getView());
         if (getItemPosition(object) == PagerAdapter.POSITION_NONE) {
-            mCurTransaction.remove((Fragment) object);
+            mCurTransaction.remove((Fragment) object);// TODO: 1/5/21 有待研究...
         } else {
             mCurTransaction.detach((Fragment) object);
         }

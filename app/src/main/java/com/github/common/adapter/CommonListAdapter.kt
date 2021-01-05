@@ -11,7 +11,7 @@ import com.github.common.CommonViewHolder
 import com.github.util.AdapterList
 
 abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    init {
+    init {// TODO: 1/5/21 不知道有啥用
         setHasStableIds(true)// 让item有自己的id
     }
 
