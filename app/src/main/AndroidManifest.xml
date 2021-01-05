@@ -5,12 +5,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".App"
+        android:icon="@mipmap/ic_launcher"
         android:label="Github"
         android:roundIcon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.main.MainActivity"
-            android:label="About"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

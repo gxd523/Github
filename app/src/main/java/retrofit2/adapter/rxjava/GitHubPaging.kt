@@ -40,7 +40,7 @@ class GitHubPaging<T> : ArrayList<T>() {
                         since = it.toInt()
                     }
                 }
-                logger.warn("${matchResult.groupValues[3]} => ${matchResult.groupValues[1]}")
+                logger.debug("${matchResult.groupValues[3]} => ${matchResult.groupValues[1]}")
             }
     }
 

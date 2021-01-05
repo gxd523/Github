@@ -1,4 +1,4 @@
-package com.github.ui.view.fragments
+package com.github.test
 
 import android.os.Bundle
 import android.view.Gravity

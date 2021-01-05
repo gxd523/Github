@@ -20,7 +20,7 @@ class PeopleListFragment : CommonListFragment<User, PeopleListPresenter>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        login = arguments?.getParcelable(OPTIONAL_login)
-        type = arguments?.getParcelable(REQUIRED_type) ?: PeoplePage.Type.ALL.name
+        login = arguments?.getString(OPTIONAL_login)
+        type = arguments?.getString(REQUIRED_type) ?: PeoplePage.Type.ALL.name
     }
 }
