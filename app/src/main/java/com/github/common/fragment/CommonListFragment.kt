@@ -14,9 +14,7 @@ import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter
 import com.github.model.page.ListPage
 import com.github.mvp.impl.BaseFragment
 import kotlinx.android.synthetic.main.common_list.*
-import org.jetbrains.anko.sdk15.listeners.onClick
-import org.jetbrains.anko.support.v4.onRefresh
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 import retrofit2.adapter.rxjava.GitHubPaging
 
 abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<DataType, CommonListFragment<DataType, Presenter>>> :
@@ -44,7 +42,7 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
 
         recyclerView.setOnLoadMoreListener(presenter::loadMore)
 
-        refreshView.onRefresh(presenter::refreshData)
+        refreshView.setOnRefreshListener(presenter::refreshData)
         presenter.initData()
     }
 
@@ -75,7 +73,7 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
 
     fun onDataInitWithError(error: String) {
         showError(error)
-        errorInfoView.onClick {
+        errorInfoView.setOnClickListener {
             presenter.initData()
         }
     }
@@ -83,11 +81,11 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
     fun onDataRefreshWithError(error: String) {
         if (adapter.dataList.isEmpty()) {
             showError(error)
-            errorInfoView.onClick {
+            errorInfoView.setOnClickListener {
                 presenter.initData()
             }
         } else {
-            toast(error)
+            requireContext().toast(error)
         }
     }
 
@@ -101,7 +99,7 @@ abstract class CommonListFragment<DataType, out Presenter : CommonListPresenter<
     fun onMoreDataLoadedWithError(error: String) {
         showError(error)
         recyclerView.refreshComplete(ListPage.PAGE_SIZE)
-        errorInfoView.onClick {
+        errorInfoView.setOnClickListener {
             presenter.initData()
         }
     }

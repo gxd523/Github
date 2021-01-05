@@ -3,8 +3,8 @@ package com.github.ui.main
 import androidx.fragment.app.Fragment
 
 interface ViewPagerFragmentConfig {
-    fun getFragmentPagesLoggedIn(): List<FragmentPage>
-    fun getFragmentPagesNotLoggedIn(): List<FragmentPage>
+    fun getFragmentPagesLoggedIn(): List<PagerData>
+    fun getFragmentPagesNotLoggedIn(): List<PagerData>
 }
 
-data class FragmentPage(val fragment: Fragment, val title: String)
+data class PagerData(val fragment: Fragment, val title: String)

@@ -8,7 +8,6 @@ import com.github.settings.Settings
 import com.github.util.loadWithGlide
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.nav_header_main.view.*
-import org.jetbrains.anko.imageResource
 
 // TODO: 1/5/21 重点：如何抽离Controller
 class NavigationController(
@@ -50,7 +49,7 @@ class NavigationController(
                 usernameView.text = user?.login ?: "请登录"
                 emailView.text = user?.email ?: "gxd523@gmail.com"
                 if (user == null) {
-                    avatarView.imageResource = R.drawable.ic_github
+                    avatarView.setImageResource(R.drawable.ic_github)
                 } else {
                     avatarView.loadWithGlide(user.avatar_url, user.login.first())
                 }

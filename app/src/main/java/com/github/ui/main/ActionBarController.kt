@@ -6,8 +6,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
 class ActionBarController(private val tabLayout: TabLayout) {
-
-    class ViewPagerDataSetObserver(val tabLayout: TabLayout) : DataSetObserver() {
+    class ViewPagerDataSetObserver(private val tabLayout: TabLayout) : DataSetObserver() {
         var viewPager: ViewPager? = null
             set(value) {
                 viewPager?.adapter?.unregisterDataSetObserver(this)
@@ -16,7 +15,6 @@ class ActionBarController(private val tabLayout: TabLayout) {
             }
 
         override fun onChanged() {
-            super.onChanged()
             viewPager?.let { viewPager ->
                 if (viewPager.adapter?.count ?: 0 <= 1) {
                     tabLayout.visibility = View.GONE

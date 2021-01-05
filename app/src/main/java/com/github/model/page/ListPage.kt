@@ -42,7 +42,7 @@ abstract class ListPage<DataType> : DataProvider<DataType> {
                 getData(it)
             }
             .doOnError {
-                logger.error("loadFromFirst, pageCount=$pageCount", it)
+                logger.error("loadFromFirst, pageCount = $pageCount, error = ${it.message}")
             }
             .reduce { acc, page ->
                 acc.mergeData(page)

@@ -4,13 +4,13 @@ import android.os.Bundle
 import com.github.common.fragment.CommonViewPagerFragment
 import com.github.model.account.AccountManager
 import com.github.model.people.PeoplePage.Type.*
-import com.github.ui.main.FragmentPage
+import com.github.ui.main.PagerData
 import com.github.ui.main.people.list.PeopleListFragment
 
 class PeopleFragment : CommonViewPagerFragment() {
-    override fun getFragmentPagesNotLoggedIn(): List<FragmentPage> {
+    override fun getFragmentPagesNotLoggedIn(): List<PagerData> {
         return listOf(
-            FragmentPage(PeopleListFragment().also {
+            PagerData(PeopleListFragment().also {
                 it.arguments = Bundle().apply {
                     putString(PeopleListFragment.REQUIRED_type, ALL.name)
                 }
@@ -18,21 +18,21 @@ class PeopleFragment : CommonViewPagerFragment() {
         )
     }
 
-    override fun getFragmentPagesLoggedIn(): List<FragmentPage> =
+    override fun getFragmentPagesLoggedIn(): List<PagerData> =
         listOf(
-            FragmentPage(PeopleListFragment().also {
+            PagerData(PeopleListFragment().also {
                 it.arguments = Bundle().apply {
                     putString(PeopleListFragment.OPTIONAL_login, AccountManager.currentUser?.login)
                     putString(PeopleListFragment.REQUIRED_type, FOLLOWER.name)
                 }
             }, "Followers"),
-            FragmentPage(PeopleListFragment().also {
+            PagerData(PeopleListFragment().also {
                 it.arguments = Bundle().apply {
                     putString(PeopleListFragment.OPTIONAL_login, AccountManager.currentUser!!.login)
                     putString(PeopleListFragment.REQUIRED_type, FOLLOWING.name)
                 }
             }, "Following"),
-            FragmentPage(PeopleListFragment().also {
+            PagerData(PeopleListFragment().also {
                 it.arguments = Bundle().apply {
                     putString(PeopleListFragment.REQUIRED_type, ALL.name)
                 }

@@ -1,7 +1,7 @@
 package com.github.ui.main.issue
 
 import com.github.common.fragment.CommonViewPagerFragment
-import com.github.ui.main.FragmentPage
+import com.github.ui.main.PagerData
 import com.github.ui.main.issue.list.MyIssueListFragment
 
 /**
@@ -9,10 +9,10 @@ import com.github.ui.main.issue.list.MyIssueListFragment
  */
 class MyIssueFragment : CommonViewPagerFragment() {
     override fun getFragmentPagesNotLoggedIn() = listOf(
-        FragmentPage(MyIssueListFragment(), "My")
+        PagerData(MyIssueListFragment(), "My")
     )
 
-    override fun getFragmentPagesLoggedIn(): List<FragmentPage> = listOf(
-        FragmentPage(MyIssueListFragment(), "My")
+    override fun getFragmentPagesLoggedIn(): List<PagerData> = listOf(
+        PagerData(MyIssueListFragment(), "My")
     )
 }

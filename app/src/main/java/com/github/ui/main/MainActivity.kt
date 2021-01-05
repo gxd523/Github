@@ -43,16 +43,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(tool_bar)
+        setSupportActionBar(toolbar)
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
-            drawer_layout,
-            tool_bar,
+            drawerLayout,
+            toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        drawer_layout.addDrawerListener(actionBarDrawerToggle)
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
         initNavigationView()
@@ -61,18 +61,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initNavigationView() {
-        AccountManager.isLoggedIn()
-            .yes {
-                navigationController.useLoginLayout()
-            }
-            .otherwise {
-                navigationController.useNoLoginLayout()
-            }
+        AccountManager.isLoggedIn().yes {
+            navigationController.useLoginLayout()
+        }.otherwise {
+            navigationController.useNoLoginLayout()
+        }
         navigationController.selectMenuItem()
     }
 
     private fun onNavigationItemSelected(menuItemData: MenuItemData) {
-        drawer_layout.afterClosed {
+        drawerLayout.afterClosed {
             showFragment(R.id.fragmentContainer, menuItemData.fragmentClass, menuItemData.arguements)
             title = menuItemData.title
         }
@@ -84,12 +82,11 @@ class MainActivity : AppCompatActivity() {
         }.otherwise {
             AccountManager.logout()
         }
-
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }

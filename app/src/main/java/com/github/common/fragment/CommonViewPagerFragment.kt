@@ -7,38 +7,32 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.github.R
-import com.github.common.adapter.CommonViewPageAdapter
+import com.github.common.adapter.CommonViewPagerAdapter
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
 import com.github.ui.main.MainActivity
 import com.github.ui.main.ViewPagerFragmentConfig
-import org.jetbrains.anko.support.v4.UI
-import org.jetbrains.anko.support.v4.viewPager
-import org.jetbrains.anko.verticalLayout
 
 abstract class CommonViewPagerFragment : Fragment(), ViewPagerFragmentConfig, OnAccountStateChangeListener {
     private val viewPageAdapter by lazy {
-        CommonViewPageAdapter(childFragmentManager)
+        CommonViewPagerAdapter(childFragmentManager)
     }
 
     private lateinit var viewPager: ViewPager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return UI {
-            verticalLayout {
-                viewPager = viewPager {
-                    id = R.id.viewPager
-                }
-                viewPager.adapter = viewPageAdapter
-            }
-        }.view
+        return ViewPager(requireContext()).apply {
+            id = R.id.viewPager
+            adapter = viewPageAdapter
+            viewPager = this
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).actionBarController.setupWithViewPager(viewPager)
-        viewPageAdapter.fragmentPages.addAll(
+        viewPageAdapter.pagerDataList.addAll(
             if (AccountManager.isLoggedIn()) {
                 getFragmentPagesLoggedIn()
             } else {
@@ -48,13 +42,13 @@ abstract class CommonViewPagerFragment : Fragment(), ViewPagerFragmentConfig, On
     }
 
     override fun onLogin(user: User) {
-        viewPageAdapter.fragmentPages.clear()
-        viewPageAdapter.fragmentPages.addAll(getFragmentPagesLoggedIn())
+        viewPageAdapter.pagerDataList.clear()
+        viewPageAdapter.pagerDataList.addAll(getFragmentPagesLoggedIn())
     }
 
     override fun onLogout() {
-        viewPageAdapter.fragmentPages.clear()
-        viewPageAdapter.fragmentPages.addAll(getFragmentPagesNotLoggedIn())
+        viewPageAdapter.pagerDataList.clear()
+        viewPageAdapter.pagerDataList.addAll(getFragmentPagesNotLoggedIn())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
