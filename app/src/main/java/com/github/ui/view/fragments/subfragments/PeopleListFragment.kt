@@ -1,22 +1,26 @@
 package com.github.ui.view.fragments.subfragments
 
-import com.bennyhuo.tieguanyin.annotations.Builder
-import com.bennyhuo.tieguanyin.annotations.Optional
-import com.bennyhuo.tieguanyin.annotations.Required
+import android.os.Bundle
+import com.github.common.CommonListFragment
+import com.github.model.people.PeoplePage
 import com.github.network.entities.User
 import com.github.presenter.PeopleListPresenter
-import com.github.common.CommonListFragment
 
-/**
- * Created by benny on 7/9/17.
- */
-@Builder
 class PeopleListFragment : CommonListFragment<User, PeopleListPresenter>() {
-    @Optional
-    lateinit var login: String
+    companion object {
+        const val REQUIRED_type = "type"
+        const val OPTIONAL_login = "login"
+    }
 
-    @Required
+    var login: String? = null
+
     lateinit var type: String
 
     override val adapter = PeopleListAdapter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        login = arguments?.getParcelable(OPTIONAL_login)
+        type = arguments?.getParcelable(REQUIRED_type) ?: PeoplePage.Type.ALL.name
+    }
 }

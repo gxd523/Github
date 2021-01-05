@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     val actionBarController by lazy {
-        ActionBarController(this)
+        ActionBarController(tabLayout)
     }
 
     private val navigationController by lazy {

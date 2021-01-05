@@ -2,6 +2,7 @@ package com.github.util
 
 import androidx.recyclerview.widget.RecyclerView
 
+// TODO: 1/4/21 重点：封装思想
 class AdapterList<T>(val adapter: RecyclerView.Adapter<*>) : ArrayList<T>() {
     override fun removeAt(index: Int): T {
         return super.removeAt(index).apply { adapter.notifyItemRemoved(index) }

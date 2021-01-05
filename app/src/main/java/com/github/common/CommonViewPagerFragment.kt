@@ -17,7 +17,6 @@ import org.jetbrains.anko.support.v4.viewPager
 import org.jetbrains.anko.verticalLayout
 
 abstract class CommonViewPagerFragment : Fragment(), ViewPagerFragmentConfig, OnAccountStateChangeListener {
-
     private val viewPageAdapter by lazy {
         CommonViewPageAdapter(childFragmentManager)
     }

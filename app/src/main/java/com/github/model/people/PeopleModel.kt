@@ -11,7 +11,7 @@ import rx.Observable
  */
 class PeoplePageParams(val type: String, val login: String?)
 
-class PeoplePage(val params: PeoplePageParams) : ListPage<User>() {
+class PeoplePage(private val params: PeoplePageParams) : ListPage<User>() {
 
     enum class Type {
         FOLLOWER, FOLLOWING, ALL

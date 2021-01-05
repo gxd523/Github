@@ -5,14 +5,14 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.github.R
-import com.github.ui.about.AboutFragment
+import com.github.ui.view.fragments.AboutFragment
 import com.github.ui.view.fragments.MyIssueFragment
 import com.github.ui.view.fragments.PeopleFragment
 import com.github.ui.view.fragments.RepoFragment
 import com.github.ui.view.fragments.subfragments.RepoListFragment
 
 class NavViewItem private constructor(
-    val groupId: Int = 0,
+    private val groupId: Int = 0,
     val title: String,
     @DrawableRes val icon: Int,
     val fragmentClass: Class<out Fragment>,
@@ -21,7 +21,8 @@ class NavViewItem private constructor(
 
     companion object {
         private val items = mapOf(
-            R.id.navRepos to NavViewItem(0,
+            R.id.navRepos to NavViewItem(
+                0,
                 "Repository",
                 R.drawable.ic_repository,
                 RepoFragment::class.java,
@@ -33,7 +34,7 @@ class NavViewItem private constructor(
         )
 
         operator fun get(@IdRes navId: Int): NavViewItem {
-            return items[navId] ?: items[R.id.navRepos]!!
+            return items[navId] ?: (items[R.id.navRepos] ?: error(""))
         }
 
         operator fun get(item: NavViewItem): Int {
