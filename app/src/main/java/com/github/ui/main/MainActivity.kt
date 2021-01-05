@@ -10,12 +10,11 @@ import com.github.common.otherwise
 import com.github.common.yes
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
-import com.github.navigation.MenuItemWrapper
-import com.github.navigation.NavigationController
-import com.github.navigation.afterClosed
 import com.github.network.entities.User
 import com.github.ui.login.LoginActivity
-import com.github.ui.view.widget.ActionBarController
+import com.github.ui.main.navigation.MenuItemData
+import com.github.ui.main.navigation.NavigationController
+import com.github.ui.main.navigation.afterClosed
 import com.github.util.launchActivity
 import com.github.util.showFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val navigationController by lazy {
-        NavigationController(navigationView, ::onNavItemChanged, ::handleNavigationHeaderClickEvent)
+        NavigationController(navigationView, ::onNavigationItemSelected, ::onNavigationHeaderClicked)
     }
 
     private val accountListener by lazy {
@@ -69,17 +68,17 @@ class MainActivity : AppCompatActivity() {
             .otherwise {
                 navigationController.useNoLoginLayout()
             }
-        navigationController.selectProperItem()
+        navigationController.selectMenuItem()
     }
 
-    private fun onNavItemChanged(menuItemWrapper: MenuItemWrapper) {
+    private fun onNavigationItemSelected(menuItemData: MenuItemData) {
         drawer_layout.afterClosed {
-            showFragment(R.id.fragmentContainer, menuItemWrapper.fragmentClass, menuItemWrapper.arguements)
-            title = menuItemWrapper.title
+            showFragment(R.id.fragmentContainer, menuItemData.fragmentClass, menuItemData.arguements)
+            title = menuItemData.title
         }
     }
 
-    private fun handleNavigationHeaderClickEvent() {
+    private fun onNavigationHeaderClicked() {
         AccountManager.isLoggedIn().no {
             launchActivity<LoginActivity>()
         }.otherwise {

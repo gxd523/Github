@@ -1,4 +1,4 @@
-package com.github.common
+package com.github.common.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.R
+import com.github.common.CommonListPresenter
+import com.github.common.adapter.CommonListAdapter
+import com.github.common.view.ErrorInfoView
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter
 import com.github.model.page.ListPage
 import com.github.mvp.impl.BaseFragment
-import com.github.ui.view.widget.ErrorInfoView
 import kotlinx.android.synthetic.main.common_list.*
 import org.jetbrains.anko.sdk15.listeners.onClick
 import org.jetbrains.anko.support.v4.onRefresh

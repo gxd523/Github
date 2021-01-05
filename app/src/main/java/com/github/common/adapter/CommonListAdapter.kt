@@ -1,4 +1,4 @@
-package com.github.common
+package com.github.common.adapter
 
 import android.animation.ObjectAnimator
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.github.R
+import com.github.common.CommonViewHolder
 import com.github.util.AdapterList
 
 abstract class CommonListAdapter<T>(@LayoutRes val itemResId: Int) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

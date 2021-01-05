@@ -1,4 +1,4 @@
-package com.github.ui.view.widget
+package com.github.common.view
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

@@ -1,4 +1,4 @@
-package com.github.ui.view.config
+package com.github.ui.main
 
 import androidx.fragment.app.Fragment
 

@@ -1,4 +1,4 @@
-package com.github.common
+package com.github.common.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.github.R
+import com.github.common.adapter.CommonViewPageAdapter
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
 import com.github.ui.main.MainActivity
-import com.github.ui.view.config.ViewPagerFragmentConfig
+import com.github.ui.main.ViewPagerFragmentConfig
 import org.jetbrains.anko.support.v4.UI
 import org.jetbrains.anko.support.v4.viewPager
 import org.jetbrains.anko.verticalLayout

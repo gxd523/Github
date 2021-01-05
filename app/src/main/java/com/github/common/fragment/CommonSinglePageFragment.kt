@@ -1,4 +1,4 @@
-package com.github.common
+package com.github.common.fragment
 
 import android.os.Bundle
 import android.view.View

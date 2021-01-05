@@ -1,7 +1,7 @@
-package com.github.ui.view.fragments.subfragments
+package com.github.ui.main.people.list
 
 import android.os.Bundle
-import com.github.common.CommonListFragment
+import com.github.common.fragment.CommonListFragment
 import com.github.model.people.PeoplePage
 import com.github.network.entities.User
 import com.github.presenter.PeopleListPresenter

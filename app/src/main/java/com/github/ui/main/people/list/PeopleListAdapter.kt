@@ -1,9 +1,9 @@
-package com.github.ui.view.fragments.subfragments
+package com.github.ui.main.people.list
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.github.R
-import com.github.common.CommonListAdapter
+import com.github.common.adapter.CommonListAdapter
 import com.github.network.entities.User
 import com.github.util.loadWithGlide
 import kotlinx.android.synthetic.main.item_user.view.*

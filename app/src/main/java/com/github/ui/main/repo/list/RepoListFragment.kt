@@ -1,7 +1,7 @@
-package com.github.ui.view.fragments.subfragments
+package com.github.ui.main.repo.list
 
 import android.os.Bundle
-import com.github.common.CommonListFragment
+import com.github.common.fragment.CommonListFragment
 import com.github.network.entities.Repository
 import com.github.network.entities.User
 import com.github.presenter.RepoListPresenter

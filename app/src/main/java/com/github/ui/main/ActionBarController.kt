@@ -1,4 +1,4 @@
-package com.github.ui.view.widget
+package com.github.ui.main
 
 import android.database.DataSetObserver
 import android.view.View

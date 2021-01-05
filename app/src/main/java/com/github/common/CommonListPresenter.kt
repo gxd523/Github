@@ -1,5 +1,6 @@
 package com.github.common
 
+import com.github.common.fragment.CommonListFragment
 import com.github.model.page.ListPage
 import com.github.mvp.impl.BasePresenter
 import rx.Subscription

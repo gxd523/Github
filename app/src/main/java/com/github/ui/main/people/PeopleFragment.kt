@@ -1,22 +1,21 @@
-package com.github.ui.view.fragments
+package com.github.ui.main.people
 
 import android.os.Bundle
-import com.github.common.CommonViewPagerFragment
+import com.github.common.fragment.CommonViewPagerFragment
 import com.github.model.account.AccountManager
 import com.github.model.people.PeoplePage.Type.*
-import com.github.ui.view.config.FragmentPage
-import com.github.ui.view.fragments.subfragments.PeopleListFragment
+import com.github.ui.main.FragmentPage
+import com.github.ui.main.people.list.PeopleListFragment
 
-/**
- * Created by benny on 7/16/17.
- */
 class PeopleFragment : CommonViewPagerFragment() {
     override fun getFragmentPagesNotLoggedIn(): List<FragmentPage> {
-        return listOf(FragmentPage(PeopleListFragment().also {
-            it.arguments = Bundle().apply {
-                putString(PeopleListFragment.REQUIRED_type, ALL.name)
-            }
-        }, "All"))
+        return listOf(
+            FragmentPage(PeopleListFragment().also {
+                it.arguments = Bundle().apply {
+                    putString(PeopleListFragment.REQUIRED_type, ALL.name)
+                }
+            }, "All")
+        )
     }
 
     override fun getFragmentPagesLoggedIn(): List<FragmentPage> =

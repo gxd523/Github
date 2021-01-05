@@ -1,6 +1,6 @@
-package com.github.ui.view.fragments.subfragments
+package com.github.ui.main.issue.list
 
-import com.github.common.CommonListFragment
+import com.github.common.fragment.CommonListFragment
 import com.github.network.entities.Issue
 import com.github.presenter.MyIssuePresenter
 

@@ -1,8 +1,7 @@
-package com.github.navigation
+package com.github.ui.main.navigation
 
 import android.view.MenuItem
 import com.github.R
-import com.github.common.log.logger
 import com.github.model.account.AccountManager
 import com.github.network.entities.User
 import com.github.settings.Settings
@@ -10,42 +9,39 @@ import com.github.util.loadWithGlide
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.sdk15.listeners.onClick
 
 // TODO: 1/5/21 重点：如何抽离Controller
 class NavigationController(
     private val navigationView: NavigationView,
-    private val onNavItemChanged: (MenuItemWrapper) -> Unit,
-    private val onHeaderClick: () -> Unit,
+    private val onNavigationItemSelected: (MenuItemData) -> Unit,
+    private val onNavigationHeaderClicked: () -> Unit,
 ) : NavigationView.OnNavigationItemSelectedListener {
 
     init {
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    private var currentItemWrapper: MenuItemWrapper? = null
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         navigationView.apply {
-            Settings.lastPage = item.itemId
-            val navItem = MenuItemWrapper[item.itemId]
-            onNavItemChanged(navItem)
+            Settings.selectMenuItemId = item.itemId
+            val navItem = MenuItemData[item.itemId]
+            onNavigationItemSelected(navItem)
         }
         return true
     }
 
     fun useLoginLayout() {
         navigationView.menu.clear()
-        navigationView.inflateMenu(R.menu.activity_main_drawer) //inflate new items.
+        navigationView.inflateMenu(R.menu.activity_main_drawer)
         onUpdate(AccountManager.currentUser)
-        selectProperItem()
+        selectMenuItem()
     }
 
     fun useNoLoginLayout() {
         navigationView.menu.clear()
-        navigationView.inflateMenu(R.menu.activity_main_drawer_no_logged_in) //inflate new items.
+        navigationView.inflateMenu(R.menu.activity_main_drawer_no_logged_in)
         onUpdate(AccountManager.currentUser)
-        selectProperItem()
+        selectMenuItem()
     }
 
     private fun onUpdate(user: User?) {
@@ -59,17 +55,21 @@ class NavigationController(
                     avatarView.loadWithGlide(user.avatar_url, user.login.first())
                 }
 
-                navigationHeader.onClick { onHeaderClick() }
+                navigationHeader.setOnClickListener() { onNavigationHeaderClicked() }
             }
         }
     }
 
-    fun selectProperItem() {
+//    private var currentMenuItemWrapper: MenuItemWrapper? = null
+
+    fun selectMenuItem() {
         navigationView.doOnLayoutAvailable {
-            logger.debug("selectProperItem onLayout: $currentItemWrapper")
-            ((currentItemWrapper?.let { MenuItemWrapper[it] } ?: Settings.lastPage)
-                .takeIf { navigationView.menu.findItem(it) != null } ?: run { Settings.defaultPage })
-                .let(navigationView::selectItem)
+//            Log.d("gxd", "currentMenuItemWrapper = $currentMenuItemWrapper")
+//            val menuItemId = currentMenuItemWrapper?.let { MenuItemWrapper[it] } ?: Settings.selectMenuItemId
+            navigationView.selectItem(
+                Settings.selectMenuItemId
+                    .takeIf { navigationView.menu.findItem(it) != null } ?: let { Settings.defaultMenuItemId }
+            )
         }
     }
 }

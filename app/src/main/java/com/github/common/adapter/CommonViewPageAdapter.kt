@@ -1,10 +1,10 @@
-package com.github.common
+package com.github.common.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.PagerAdapter
-import com.github.ui.view.config.FragmentPage
+import com.github.ui.main.FragmentPage
 import com.github.util.ViewPagerAdapterList
 
 class CommonViewPageAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {

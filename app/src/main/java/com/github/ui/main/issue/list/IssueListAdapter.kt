@@ -1,9 +1,9 @@
-package com.github.ui.view.fragments.subfragments
+package com.github.ui.main.issue.list
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.github.R
-import com.github.common.CommonListAdapter
+import com.github.common.adapter.CommonListAdapter
 import com.github.network.entities.Issue
 import com.github.util.githubTimeToDate
 import com.github.util.htmlText

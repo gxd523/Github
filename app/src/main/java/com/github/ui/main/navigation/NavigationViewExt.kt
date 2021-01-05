@@ -1,18 +1,18 @@
-package com.github.navigation
+package com.github.ui.main.navigation
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.view.menu.MenuItemImpl
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.github.common.log.logger
 import com.github.common.otherwise
 import com.github.common.yes
 import com.google.android.material.navigation.NavigationView
 
-// TODO: 1/2/21 重点：扩展函数+高阶函数
+// TODO: 1/2/21 重点：扩展函数+高阶函数，LayoutAvailable监听
 inline fun NavigationView.doOnLayoutAvailable(crossinline block: () -> Unit) {
     ViewCompat.isLaidOut(this).yes {
         block()
@@ -42,7 +42,7 @@ inline fun NavigationView.doOnLayoutAvailable(crossinline block: () -> Unit) {
 @SuppressLint("RestrictedApi")
 fun NavigationView.selectItem(@IdRes resId: Int) {
     doOnLayoutAvailable {
-        logger.debug("select Item: ${MenuItemWrapper[resId].title}")
+        Log.d("gxd", "selected MenuItem = ${MenuItemData[resId].title}")
         setCheckedItem(resId)
         (menu.findItem(resId) as MenuItemImpl)()
     }
@@ -51,17 +51,16 @@ fun NavigationView.selectItem(@IdRes resId: Int) {
 inline fun DrawerLayout.afterClosed(crossinline block: () -> Unit) {
     if (isDrawerOpen(GravityCompat.START)) {
         closeDrawer(GravityCompat.START)
-        addDrawerListener(
-            object : DrawerLayout.DrawerListener {
-                override fun onDrawerStateChanged(newState: Int) = Unit
-                override fun onDrawerSlide(drawerView: View, slideOffset: Float) = Unit
-                override fun onDrawerOpened(drawerView: View) = Unit
+        addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerStateChanged(newState: Int) = Unit
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) = Unit
+            override fun onDrawerOpened(drawerView: View) = Unit
 
-                override fun onDrawerClosed(drawerView: View) {
-                    removeDrawerListener(this)
-                    block()
-                }
-            })
+            override fun onDrawerClosed(drawerView: View) {
+                removeDrawerListener(this)
+                block()
+            }
+        })
     } else {
         block()
     }
