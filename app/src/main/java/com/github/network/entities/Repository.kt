@@ -5,7 +5,6 @@ import com.github.common.anno.PoKo
 import kotlinx.android.parcel.Parcelize
 
 
-
 @PoKo
 @Parcelize
 data class Repository(

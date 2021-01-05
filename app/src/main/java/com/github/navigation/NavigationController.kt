@@ -6,9 +6,7 @@ import com.github.common.log.logger
 import com.github.model.account.AccountManager
 import com.github.network.entities.User
 import com.github.settings.Settings
-import com.github.util.doOnLayoutAvailable
 import com.github.util.loadWithGlide
-import com.github.util.selectItem
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.jetbrains.anko.imageResource

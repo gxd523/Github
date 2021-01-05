@@ -1,4 +1,4 @@
-package com.github.util
+package com.github.navigation
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -10,7 +10,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.github.common.log.logger
 import com.github.common.otherwise
 import com.github.common.yes
-import com.github.navigation.MenuItemWrapper
 import com.google.android.material.navigation.NavigationView
 
 // TODO: 1/2/21 重点：扩展函数+高阶函数

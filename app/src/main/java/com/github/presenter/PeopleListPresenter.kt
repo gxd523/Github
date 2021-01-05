@@ -1,10 +1,10 @@
 package com.github.presenter
 
+import com.github.common.CommonListPresenter
 import com.github.model.page.ListPage
 import com.github.model.people.PeoplePage
 import com.github.model.people.PeoplePageParams
 import com.github.network.entities.User
-import com.github.common.CommonListPresenter
 import com.github.ui.view.fragments.subfragments.PeopleListFragment
 
 /**

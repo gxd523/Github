@@ -1,8 +1,8 @@
 package com.github.ui.view.fragments
 
 import android.os.Bundle
-import com.github.model.account.AccountManager
 import com.github.common.CommonViewPagerFragment
+import com.github.model.account.AccountManager
 import com.github.ui.view.config.FragmentPage
 import com.github.ui.view.fragments.subfragments.RepoListFragment
 

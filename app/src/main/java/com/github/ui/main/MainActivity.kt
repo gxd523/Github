@@ -10,12 +10,12 @@ import com.github.common.otherwise
 import com.github.common.yes
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
+import com.github.navigation.MenuItemWrapper
+import com.github.navigation.NavigationController
+import com.github.navigation.afterClosed
 import com.github.network.entities.User
 import com.github.ui.login.LoginActivity
-import com.github.navigation.MenuItemWrapper
 import com.github.ui.view.widget.ActionBarController
-import com.github.navigation.NavigationController
-import com.github.util.afterClosed
 import com.github.util.launchActivity
 import com.github.util.showFragment
 import kotlinx.android.synthetic.main.activity_main.*
