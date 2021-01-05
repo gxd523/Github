@@ -10,7 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.github.common.log.logger
 import com.github.common.otherwise
 import com.github.common.yes
-import com.github.ui.view.config.NavViewItem
+import com.github.navigation.MenuItemWrapper
 import com.google.android.material.navigation.NavigationView
 
 // TODO: 1/2/21 重点：扩展函数+高阶函数
@@ -43,7 +43,7 @@ inline fun NavigationView.doOnLayoutAvailable(crossinline block: () -> Unit) {
 @SuppressLint("RestrictedApi")
 fun NavigationView.selectItem(@IdRes resId: Int) {
     doOnLayoutAvailable {
-        logger.debug("select Item: ${NavViewItem[resId].title}")
+        logger.debug("select Item: ${MenuItemWrapper[resId].title}")
         setCheckedItem(resId)
         (menu.findItem(resId) as MenuItemImpl)()
     }

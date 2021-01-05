@@ -1,4 +1,4 @@
-package com.github.ui.view.config
+package com.github.navigation
 
 import android.os.Bundle
 import androidx.annotation.DrawableRes
@@ -11,7 +11,7 @@ import com.github.ui.view.fragments.PeopleFragment
 import com.github.ui.view.fragments.RepoFragment
 import com.github.ui.view.fragments.subfragments.RepoListFragment
 
-class NavViewItem private constructor(
+class MenuItemWrapper private constructor(
     private val groupId: Int = 0,
     val title: String,
     @DrawableRes val icon: Int,
@@ -20,25 +20,25 @@ class NavViewItem private constructor(
 ) {
 
     companion object {
-        private val items = mapOf(
-            R.id.navRepos to NavViewItem(
+        private val menuItemMap = mapOf(
+            R.id.navRepos to MenuItemWrapper(
                 0,
                 "Repository",
                 R.drawable.ic_repository,
                 RepoFragment::class.java,
                 Bundle().apply { putParcelable(RepoListFragment.OPTIONAL_user, null) }
             ),
-            R.id.navPeople to NavViewItem(0, "People", R.drawable.ic_people, PeopleFragment::class.java),
-            R.id.navIssue to NavViewItem(0, "Issue", R.drawable.ic_issue, MyIssueFragment::class.java),
-            R.id.navAbout to NavViewItem(0, "About", R.drawable.ic_about_us, AboutFragment::class.java)
+            R.id.navPeople to MenuItemWrapper(0, "People", R.drawable.ic_people, PeopleFragment::class.java),
+            R.id.navIssue to MenuItemWrapper(0, "Issue", R.drawable.ic_issue, MyIssueFragment::class.java),
+            R.id.navAbout to MenuItemWrapper(0, "About", R.drawable.ic_about_us, AboutFragment::class.java)
         )
 
-        operator fun get(@IdRes navId: Int): NavViewItem {
-            return items[navId] ?: (items[R.id.navRepos] ?: error(""))
+        operator fun get(@IdRes navId: Int): MenuItemWrapper {
+            return menuItemMap[navId] ?: (menuItemMap[R.id.navRepos] ?: error(""))
         }
 
-        operator fun get(item: NavViewItem): Int {
-            return items.filter { it.value == item }.keys.first()
+        operator fun get(itemWrapper: MenuItemWrapper): Int {
+            return menuItemMap.filter { it.value == itemWrapper }.keys.first()
         }
     }
 

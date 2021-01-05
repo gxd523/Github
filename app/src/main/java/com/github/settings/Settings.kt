@@ -7,9 +7,12 @@ import com.github.util.sp
 
 object Settings {
     var lastPage: Int
-        get() = if (lastPageIdString.isEmpty()) 0 else AppContext.resources.getIdentifier(lastPageIdString,
-            "id",
-            AppContext.packageName)
+        get() = if (lastPageIdString.isEmpty()) 0 else
+            AppContext.resources.getIdentifier(
+                lastPageIdString,
+                "id",
+                AppContext.packageName
+            )
         set(value) {
             lastPageIdString = AppContext.resources.getResourceEntryName(value)
         }

@@ -12,9 +12,9 @@ import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
 import com.github.ui.login.LoginActivity
-import com.github.ui.view.config.NavViewItem
+import com.github.navigation.MenuItemWrapper
 import com.github.ui.view.widget.ActionBarController
-import com.github.ui.view.widget.NavigationController
+import com.github.navigation.NavigationController
 import com.github.util.afterClosed
 import com.github.util.launchActivity
 import com.github.util.showFragment
@@ -72,10 +72,10 @@ class MainActivity : AppCompatActivity() {
         navigationController.selectProperItem()
     }
 
-    private fun onNavItemChanged(navViewItem: NavViewItem) {
+    private fun onNavItemChanged(menuItemWrapper: MenuItemWrapper) {
         drawer_layout.afterClosed {
-            showFragment(R.id.fragmentContainer, navViewItem.fragmentClass, navViewItem.arguements)
-            title = navViewItem.title
+            showFragment(R.id.fragmentContainer, menuItemWrapper.fragmentClass, menuItemWrapper.arguements)
+            title = menuItemWrapper.title
         }
     }
 

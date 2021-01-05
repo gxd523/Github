@@ -1,4 +1,4 @@
-package com.github.ui.view.widget
+package com.github.navigation
 
 import android.view.MenuItem
 import com.github.R
@@ -6,7 +6,6 @@ import com.github.common.log.logger
 import com.github.model.account.AccountManager
 import com.github.network.entities.User
 import com.github.settings.Settings
-import com.github.ui.view.config.NavViewItem
 import com.github.util.doOnLayoutAvailable
 import com.github.util.loadWithGlide
 import com.github.util.selectItem
@@ -15,9 +14,10 @@ import kotlinx.android.synthetic.main.nav_header_main.view.*
 import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.sdk15.listeners.onClick
 
+// TODO: 1/5/21 重点：如何抽离Controller
 class NavigationController(
     private val navigationView: NavigationView,
-    private val onNavItemChanged: (NavViewItem) -> Unit,
+    private val onNavItemChanged: (MenuItemWrapper) -> Unit,
     private val onHeaderClick: () -> Unit,
 ) : NavigationView.OnNavigationItemSelectedListener {
 
@@ -25,12 +25,12 @@ class NavigationController(
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    private var currentItem: NavViewItem? = null
+    private var currentItemWrapper: MenuItemWrapper? = null
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         navigationView.apply {
             Settings.lastPage = item.itemId
-            val navItem = NavViewItem[item.itemId]
+            val navItem = MenuItemWrapper[item.itemId]
             onNavItemChanged(navItem)
         }
         return true
@@ -67,10 +67,9 @@ class NavigationController(
     }
 
     fun selectProperItem() {
-        logger.debug("selectProperItem")
         navigationView.doOnLayoutAvailable {
-            logger.debug("selectProperItem onLayout: $currentItem")
-            ((currentItem?.let { NavViewItem[it] } ?: Settings.lastPage)
+            logger.debug("selectProperItem onLayout: $currentItemWrapper")
+            ((currentItemWrapper?.let { MenuItemWrapper[it] } ?: Settings.lastPage)
                 .takeIf { navigationView.menu.findItem(it) != null } ?: run { Settings.defaultPage })
                 .let(navigationView::selectItem)
         }
