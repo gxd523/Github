@@ -19,19 +19,18 @@ abstract class CommonViewPagerFragment : Fragment(), ViewPagerFragmentConfig, On
         CommonViewPagerAdapter(childFragmentManager)
     }
 
-    private lateinit var viewPager: ViewPager
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return ViewPager(requireContext()).apply {
             id = R.id.viewPager
             adapter = viewPageAdapter
-            viewPager = this
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).actionBarController.setupWithViewPager(viewPager)
+        if (activity is MainActivity && view is ViewPager) {
+            (activity as MainActivity).actionBarController.setupWithViewPager(view)
+        }
         viewPageAdapter.pagerDataList.addAll(
             if (AccountManager.isLoggedIn()) {
                 getFragmentPagesLoggedIn()
