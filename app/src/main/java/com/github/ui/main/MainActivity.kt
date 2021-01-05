@@ -1,6 +1,7 @@
 package com.github.ui.main
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -11,6 +12,7 @@ import com.github.common.yes
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
+import com.github.settings.Themer
 import com.github.ui.login.LoginActivity
 import com.github.ui.main.navigation.MenuItemData
 import com.github.ui.main.navigation.NavigationController
@@ -18,6 +20,7 @@ import com.github.ui.main.navigation.afterClosed
 import com.github.util.launchActivity
 import com.github.util.showFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.menu_item_daynight.view.*
 
 class MainActivity : AppCompatActivity() {
     val actionBarController by lazy {
@@ -42,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Themer.applyProperTheme(this)
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -82,6 +87,18 @@ class MainActivity : AppCompatActivity() {
         }.otherwise {
             AccountManager.logout()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.activity_actionbar, menu)
+        menu.findItem(R.id.dayNight).actionView.dayNightSwitch.apply {
+            isChecked = Themer.currentTheme() == Themer.ThemeMode.DAY
+
+            setOnCheckedChangeListener { _, _ ->
+                Themer.toggle(this@MainActivity)
+            }
+        }
+        return true
     }
 
     override fun onBackPressed() {

@@ -17,4 +17,6 @@ object Settings {
 
     val defaultMenuItemId
         get() = if (AccountManager.isLoggedIn()) R.id.navRepos else R.id.navRepos
+
+    var themeMode by sp("DAY")
 }

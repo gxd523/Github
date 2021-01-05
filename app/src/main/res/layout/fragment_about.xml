@@ -16,30 +16,17 @@
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/ic_launcher" />
 
-
         <TextView
             style="@style/detail_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="GitHub"
-            android:textColor="@color/colorPrimary" />
+            android:text="GitHub" />
 
         <TextView
             style="@style/detail_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="By Gonzalez"
-            android:textColor="@color/colorPrimary" />
+            android:text="By Gonzalez" />
 
         <TextView
             android:id="@+id/licensesTextView"
             style="@style/detail_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/open_source_licenses"
-            android:textColor="@color/colorPrimary" />
+            android:text="@string/open_source_licenses" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

@@ -8,6 +8,7 @@ import android.view.View
 import com.github.R
 import com.github.mvp.impl.BaseActivity
 import com.github.presenter.LoginPresenter
+import com.github.settings.Themer
 import com.github.ui.main.MainActivity
 import com.github.util.launchActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -16,7 +17,10 @@ import org.jetbrains.anko.toast
 class LoginActivity : BaseActivity<LoginPresenter>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Themer.applyProperTheme(this)
+
         setContentView(R.layout.activity_login)
+        setSupportActionBar(toolbar)
 
         showLoading(true)
 
