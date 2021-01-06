@@ -86,6 +86,7 @@ dependencies {
     implementation 'cn.carbs.android:AvatarImageView:1.0.4'
     implementation 'com.github.jdsjlzx:LRecyclerView:1.5.4.3'
 
+    implementation 'com.bennyhuo.swipefinishable:swipefinishable:1.0-rc2'
 //    implementation 'com.bennyhuo.tieguanyin:tieguanyin-runtime:2.0-beta4'
 //    implementation 'com.bennyhuo.tieguanyin:tieguanyin-annotations:2.0-beta4'
 //    kapt 'com.bennyhuo.tieguanyin:tieguanyin-compiler:2.0-beta4'

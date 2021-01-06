@@ -23,6 +23,18 @@ interface RepositoryApi {
         @Query("q") q: String,
         @Query("per_page") per_page: Int = 20,
     ): Observable<SearchRepositoryList>
+
+    @GET("/repos/{owner}/{repo}")
+    fun getRepository(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Query(FORCE_NETWORK) forceNetwork: Boolean = false,
+    ): Observable<Repository>
 }
+
+/**
+ * 通过一个 QueryParameter 让 CacheInterceptor 添加 no-cache
+ */
+const val FORCE_NETWORK = "forceNetwork"
 
 object RepositoryService : RepositoryApi by retrofit.create(RepositoryApi::class.java)

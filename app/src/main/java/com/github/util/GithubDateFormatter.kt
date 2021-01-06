@@ -18,9 +18,9 @@ val outputDateFormatter by lazy {
     SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA)
 }
 
-fun Date.format(pattern: String) = SimpleDateFormat(pattern, Locale.CHINA).format(this)
+fun Date.format(pattern: String): String = SimpleDateFormat(pattern, Locale.CHINA).format(this)
 
-fun githubTimeToDate(time: String) = githubDateFormatter.parse(time)
+fun githubTimeToDate(time: String): Date = githubDateFormatter.parse(time)
 
 fun Date.view(): String {
     val now = System.currentTimeMillis()
