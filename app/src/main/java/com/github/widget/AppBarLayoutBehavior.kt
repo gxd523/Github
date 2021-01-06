@@ -34,12 +34,12 @@ class AppBarLayoutBehavior(context: Context, attrs: AttributeSet?) : Coordinator
             originalTop = INVALID_VALUE
             originalLeft = INVALID_VALUE
         } else {
-            val a = context.obtainStyledAttributes(attrs, R.styleable.AppBarLayoutBehavior)
-            targetTop = a.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_targetTop, INVALID_VALUE)
-            targetLeft = a.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_targetLeft, INVALID_VALUE)
-            originalTop = a.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_originalTop, INVALID_VALUE)
-            originalLeft = a.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_originalLeft, INVALID_VALUE)
-            a.recycle()
+            val typedArray = context.obtainStyledAttributes(attrs, R.styleable.AppBarLayoutBehavior)
+            targetTop = typedArray.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_targetTop, INVALID_VALUE)
+            targetLeft = typedArray.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_targetLeft, INVALID_VALUE)
+            originalTop = typedArray.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_originalTop, INVALID_VALUE)
+            originalLeft = typedArray.getDimensionPixelSize(R.styleable.AppBarLayoutBehavior_originalLeft, INVALID_VALUE)
+            typedArray.recycle()
         }
     }
 

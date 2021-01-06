@@ -1,8 +1,9 @@
 package com.github.util
 
+import cn.carbs.android.avatarimageview.library.AppCompatAvatarImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import cn.carbs.android.avatarimageview.library.AppCompatAvatarImageView
+import java.util.*
 
 // TODO: 1/2/21 重点：扩展函数+高阶函数
 fun AppCompatAvatarImageView.loadWithGlide(
@@ -11,7 +12,7 @@ fun AppCompatAvatarImageView.loadWithGlide(
     requestOptions: RequestOptions = RequestOptions(),
 ) {
     textPlaceHolder.toString().let {
-        setTextAndColorSeed(it.toUpperCase(), it.hashCode().toString())
+        setTextAndColorSeed(it.toUpperCase(Locale.getDefault()), it.hashCode().toString())
     }
 
     Glide.with(this.context)

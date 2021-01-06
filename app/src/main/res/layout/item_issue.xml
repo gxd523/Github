@@ -22,7 +22,7 @@
             android:id="@+id/commentCountContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:padding="10dp">
 
             <ImageView
@@ -44,8 +44,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/commentCountContainer"
-            android:layout_toRightOf="@id/iconView"
+            android:layout_toStartOf="@id/commentCountContainer"
+            android:layout_toEndOf="@id/iconView"
             android:orientation="vertical">
 
             <TextView
