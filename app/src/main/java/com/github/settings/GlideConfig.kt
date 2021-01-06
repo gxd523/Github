@@ -8,16 +8,15 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
-import com.github.network.dns.customLookup
+import com.github.network.dns.modifyDns
 import okhttp3.OkHttpClient
 import java.io.InputStream
-
 
 @GlideModule
 @Excludes(value = [com.bumptech.glide.integration.okhttp3.OkHttpLibraryGlideModule::class])
 class GlideConfig : AppGlideModule() {
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
-        val client = OkHttpClient.Builder().dns(::customLookup).build()
+        val client = OkHttpClient.Builder().modifyDns().build()
         registry.replace(GlideUrl::class.java, InputStream::class.java, OkHttpUrlLoader.Factory(client))
     }
 }

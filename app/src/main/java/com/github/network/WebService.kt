@@ -2,6 +2,7 @@ package com.github.network
 
 import com.github.AppContext
 import com.github.common.ensureDir
+import com.github.network.dns.modifyDns
 import com.github.network.interceptors.AcceptInterceptor
 import com.github.network.interceptors.AuthInterceptor
 import com.github.network.interceptors.CacheInterceptor
@@ -45,6 +46,7 @@ private fun createClientBuilder() = OkHttpClient.Builder()
     .writeTimeout(60, TimeUnit.SECONDS)
     .cache(Cache(cacheFile, 50 * 1024 * 1024))
     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+    .modifyDns()
 
 
 private fun createRetrofitBuilder(client: OkHttpClient) = Retrofit.Builder()
