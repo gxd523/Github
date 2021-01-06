@@ -1,5 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,12 +10,12 @@
     <cn.carbs.android.avatarimageview.library.AvatarImageView
         android:id="@+id/avatarView"
         style="@style/list_item_avatar"
-        android:src="@drawable/ic_github" />
+        app:srcCompat="@drawable/ic_github" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/avatarView"
+        android:layout_toEndOf="@id/avatarView"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -43,7 +44,7 @@
 
             <ImageView
                 style="@style/repo_tag_icon"
-                android:src="@drawable/ic_round" />
+                app:srcCompat="@drawable/ic_round" />
 
             <TextView
                 android:id="@+id/langView"
@@ -52,7 +53,7 @@
 
             <ImageView
                 style="@style/repo_tag_icon"
-                android:src="@drawable/ic_star" />
+                app:srcCompat="@drawable/ic_star" />
 
             <TextView
                 android:id="@+id/starView"
@@ -61,7 +62,7 @@
 
             <ImageView
                 style="@style/repo_tag_icon"
-                android:src="@drawable/ic_fork" />
+                app:srcCompat="@drawable/ic_fork" />
 
             <TextView
                 android:id="@+id/forkView"

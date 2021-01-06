@@ -27,6 +27,9 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        // https://chris.banes.me/2016/02/25/appcompat-vector/#enabling-the-flag
+        // 如果需要使用兼容库对svg的支持，就需要这样配置
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         debug {
