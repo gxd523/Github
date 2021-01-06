@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.R
 import com.github.common.adapter.CommonListAdapter
 import com.github.network.entities.Repository
+import com.github.ui.detail.RepoDetailActivity
 import com.github.util.kilo
+import com.github.util.launchActivity
 import com.github.util.loadWithGlide
 import kotlinx.android.synthetic.main.item_repo.view.*
 
@@ -22,6 +24,8 @@ class RepoListAdapter : CommonListAdapter<Repository>(R.layout.item_repo) {
     }
 
     override fun onItemClicked(itemView: View, item: Repository) {
-        //todo
+        itemView.context.launchActivity<RepoDetailActivity> {
+            putParcelable(RepoDetailActivity.ARG_REPO, item)
+        }
     }
 }

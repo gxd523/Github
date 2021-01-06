@@ -26,7 +26,6 @@ interface ActivityApi {
 
     @GET("/user/starred")
     fun reposStarredByCurrentUser(): Observable<GitHubPaging<Repository>>
-    //endregion
 
     //region watch / subscription
     @GET("/repos/{owner}/{repo}/subscription")

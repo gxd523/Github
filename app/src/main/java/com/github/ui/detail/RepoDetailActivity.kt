@@ -3,18 +3,21 @@ package com.github.ui.detail
 import android.os.Bundle
 import com.github.R
 import com.github.common.BaseDetailSwipeFinishableActivity
+import com.github.common.otherwise
+import com.github.common.yes
 import com.github.network.entities.Repository
 import com.github.network.services.ActivityService
 import com.github.network.services.RepositoryService
 import com.github.util.*
 import kotlinx.android.synthetic.main.activity_repo_details.*
-import kotlinx.android.synthetic.main.app_bar_details.*
 import retrofit2.Response
 import rx.Subscriber
 
 class RepoDetailActivity : BaseDetailSwipeFinishableActivity() {
+    companion object {
+        const val ARG_REPO = "argument_repository"
+    }
 
-    // TODO: 1/6/21 unfinished：@Required
     lateinit var repository: Repository
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +25,8 @@ class RepoDetailActivity : BaseDetailSwipeFinishableActivity() {
         setContentView(R.layout.activity_repo_details)
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        repository = intent.getParcelableExtra(ARG_REPO)!!
 
         initDetails()
         reloadDetails()
@@ -45,23 +50,23 @@ class RepoDetailActivity : BaseDetailSwipeFinishableActivity() {
         detailContainer.alpha = 0f
 
         stars.checkEvent = { isChecked ->
-            if (isChecked) {
-                ActivityService.unstar(repository.owner.login, repository.name)
-                    .map { false }
-            } else {
-                ActivityService.star(repository.owner.login, repository.name)
-                    .map { true }
-            }.doOnNext { reloadDetails(true) }
+            isChecked.yes {
+                ActivityService.unstar(repository.owner.login, repository.name).map { false }
+            }.otherwise {
+                ActivityService.star(repository.owner.login, repository.name).map { true }
+            }.doOnNext {
+                reloadDetails(true)
+            }
         }
 
         watches.checkEvent = { isChecked ->
-            if (isChecked) {
-                ActivityService.unwatch(repository.owner.login, repository.name)
-                    .map { false }
-            } else {
-                ActivityService.watch(repository.owner.login, repository.name)
-                    .map { true }
-            }.doOnNext { reloadDetails(true) }
+            isChecked.yes {
+                ActivityService.unwatch(repository.owner.login, repository.name).map { false }
+            }.otherwise {
+                ActivityService.watch(repository.owner.login, repository.name).map { true }
+            }.doOnNext {
+                reloadDetails(true)
+            }
         }
 
         ActivityService.isStarred(repository.owner.login, repository.name)
@@ -86,7 +91,6 @@ class RepoDetailActivity : BaseDetailSwipeFinishableActivity() {
         RepositoryService.getRepository(repository.owner.login, repository.name, forceNetwork)
             .subscribe(object : Subscriber<Repository>() {
                 override fun onStart() {
-                    super.onStart()
                     loadingView.animate().alpha(1f).start()
                 }
 

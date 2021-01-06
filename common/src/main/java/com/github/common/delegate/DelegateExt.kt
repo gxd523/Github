@@ -3,7 +3,6 @@ package com.github.common.delegate
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-// TODO: 1/6/21 重点：代理使用
 fun <T> delegateOf(
     getter: () -> T,
     setter: ((T) -> Unit)? = null,
@@ -55,20 +54,24 @@ private class ObjectPropertyDelegate1<T>(
     }
 }
 
-fun <T, R> delegateOf(
-    receiver: R,
+fun <T, R> delegateLazyOf(
     getter: ((R) -> T)? = null,
     setter: ((R, T) -> Unit)? = null,
     defaultValue: T? = null,
-): ReadWriteProperty<Any, T> = ObjectPropertyDelegate(receiver, getter, setter, defaultValue)
+    receiverBlock: () -> R,
+): ReadWriteProperty<Any, T> = ObjectPropertyLazyDelegate(getter, setter, defaultValue, receiverBlock)
 
-class ObjectPropertyDelegate<T, R>(
-    private val receiver: R,
+// TODO: 1/6/21 重点：代理使用
+class ObjectPropertyLazyDelegate<T, R>(
     private val getter: ((R) -> T)? = null,
     private val setter: ((R, T) -> Unit)? = null,
     defaultValue: T? = null,
+    receiverBlock: () -> R,
 ) : ReadWriteProperty<Any, T> {
     private var value: T? = defaultValue
+    private val receiver by lazy {// TODO: 1/6/21 重点：懒初始化代理
+        receiverBlock()
+    }
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
         return getter?.invoke(receiver) ?: value!!
