@@ -11,7 +11,7 @@ import androidx.core.view.TintableBackgroundView
 class TintableToggleButton
 @JvmOverloads // TODO: 1/5/21 重点：JvmOverloads：生成多个构造函数
 constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-    AppCompatToggleButton(context, attrs, defStyleAttr), TintableBackgroundView {
+    AppCompatToggleButton(TintContextWrapper.wrap(context), attrs, defStyleAttr), TintableBackgroundView {
 
     // TODO: 1/5/21 重点：因为在父类(View)的构造函数里调用了setBackground，此时还没有初始化子类的成员变量
     private var backgroundTintHelper: AppCompatBackgroundHelper? = null

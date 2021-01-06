@@ -2,6 +2,7 @@ package com.github.network
 
 import com.github.AppContext
 import com.github.common.ensureDir
+import com.github.network.compat.enableTls12OnPreLollipop
 import com.github.network.dns.modifyDns
 import com.github.network.interceptors.AcceptInterceptor
 import com.github.network.interceptors.AuthInterceptor
@@ -47,6 +48,7 @@ private fun createClientBuilder() = OkHttpClient.Builder()
     .cache(Cache(cacheFile, 50 * 1024 * 1024))
     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
     .modifyDns()
+    .enableTls12OnPreLollipop()
 
 
 private fun createRetrofitBuilder(client: OkHttpClient) = Retrofit.Builder()

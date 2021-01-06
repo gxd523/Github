@@ -2,7 +2,7 @@ package com.github.util
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.github.widget.AppCompatAvatarImageView
+import cn.carbs.android.avatarimageview.library.AppCompatAvatarImageView
 
 // TODO: 1/2/21 重点：扩展函数+高阶函数
 fun AppCompatAvatarImageView.loadWithGlide(
