@@ -4,6 +4,7 @@ import com.github.AppContext
 import com.github.common.ensureDir
 import com.github.network.interceptors.AcceptInterceptor
 import com.github.network.interceptors.AuthInterceptor
+import com.github.network.interceptors.CacheInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,6 +28,7 @@ val retrofit: Retrofit by lazy {
     clientBuilder.apply {
         addInterceptor(AcceptInterceptor())
         addInterceptor(AuthInterceptor())
+        addInterceptor(CacheInterceptor())
     }
     createRetrofitBuilder(clientBuilder.build())
         .baseUrl("https://api.github.com")
