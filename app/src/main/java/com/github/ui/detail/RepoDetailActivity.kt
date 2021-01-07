@@ -2,7 +2,6 @@ package com.github.ui.detail
 
 import android.os.Bundle
 import com.github.R
-import com.github.common.BaseDetailSwipeFinishableActivity
 import com.github.common.otherwise
 import com.github.common.yes
 import com.github.network.entities.Repository
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_repo_details.*
 import retrofit2.Response
 import rx.Subscriber
 
-class RepoDetailActivity : BaseDetailSwipeFinishableActivity() {
+class RepoDetailActivity : BaseDetailSwipeFinishActivity() {
     companion object {
         const val ARG_REPO = "argument_repository"
     }
@@ -24,7 +23,7 @@ class RepoDetailActivity : BaseDetailSwipeFinishableActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repo_details)
         setSupportActionBar(toolBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)// 左上角返回键
 
         repository = intent.getParcelableExtra(ARG_REPO)!!
 

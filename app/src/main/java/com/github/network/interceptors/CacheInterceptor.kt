@@ -33,7 +33,7 @@ class CacheInterceptor : Interceptor {
 
         request = request.newBuilder().url(request.url().newBuilder().removeAllQueryParameters(FORCE_NETWORK).build()).build()
         return chain.proceed(request).also { response ->
-            logger.error("Cache: ${response.cacheResponse()}, Network: ${response.networkResponse()}")
+            logger.debug("Cache: ${response.cacheResponse()}, Network: ${response.networkResponse()}")
         }
     }
 }
