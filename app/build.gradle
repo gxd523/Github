@@ -108,5 +108,5 @@ dependencies {
 //    implementation "org.jetbrains.anko:anko-appcompat-v7-listeners:$anko_version"
 
     implementation "com.apollographql.apollo:apollo-runtime:$apollo_version"
-    implementation 'com.apollographql.apollo:apollo-rx-support:1.0.2'
+    implementation 'com.bennyhuo.retroapollo:retroapollo:0.4.2-beta'
 }

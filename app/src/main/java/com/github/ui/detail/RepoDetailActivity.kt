@@ -1,12 +1,10 @@
 package com.github.ui.detail
 
 import android.os.Bundle
-import com.apollographql.apollo.rx.RxApollo
 import com.github.R
 import com.github.common.otherwise
 import com.github.common.yes
-import com.github.graphql.entities.RepositoryIssueCountQuery
-import com.github.network.apolloClient
+import com.github.network.GraphQlService
 import com.github.network.entities.Repository
 import com.github.network.services.ActivityService
 import com.github.network.services.RepositoryService
@@ -14,8 +12,6 @@ import com.github.util.*
 import kotlinx.android.synthetic.main.activity_repo_details.*
 import retrofit2.Response
 import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 class RepoDetailActivity : BaseDetailSwipeFinishActivity() {
     companion object {
@@ -120,20 +116,13 @@ class RepoDetailActivity : BaseDetailSwipeFinishActivity() {
 
             })
 
-        RxApollo.from(
-            apolloClient.query(
-                RepositoryIssueCountQuery(repository.name, repository.owner.login)
-            ).watcher()
-        ).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { apolloResponse ->
-                apolloResponse.data?.let { data ->
-                    issues.content = "open: ${
-                        data.repository()?.openIssues()?.totalCount() ?: 0
-                    } closed: ${
-                        data.repository()?.closedIssues()?.totalCount() ?: 0
-                    }"
-                }
+        GraphQlService.repositoryIssuesCount(repository.owner.login, repository.name)
+            .subscribeIgnoreError { data ->
+                issues.content = "open: ${
+                    data.repository()?.openIssues()?.totalCount() ?: 0
+                } closed: ${
+                    data.repository()?.closedIssues()?.totalCount() ?: 0
+                }"
             }
     }
 
