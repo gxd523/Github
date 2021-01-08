@@ -6,9 +6,6 @@ import com.github.network.services.UserService
 import retrofit2.adapter.rxjava.GitHubPaging
 import rx.Observable
 
-/**
- * Created by benny on 1/11/18.
- */
 class PeoplePageParams(val type: String, val login: String?)
 
 class PeoplePage(private val params: PeoplePageParams) : ListPage<User>() {

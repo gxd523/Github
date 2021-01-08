@@ -108,6 +108,7 @@ dependencies {
 //    implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
 //    implementation "org.jetbrains.anko:anko-appcompat-v7-listeners:$anko_version"
 
-    implementation "com.apollographql.apollo:apollo-runtime:$apollo_version"
-    implementation 'com.bennyhuo.retroapollo:retroapollo:0.4.2-beta'
+    implementation("com.apollographql.apollo:apollo-runtime:$apollo_version") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
 }

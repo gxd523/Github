@@ -4,9 +4,6 @@ import android.os.Parcelable
 import com.github.common.anno.PoKo
 import kotlinx.android.parcel.Parcelize
 
-/**
- * Created by benny on 9/23/17.
- */
 @PoKo
 @Parcelize
 data class Issue(

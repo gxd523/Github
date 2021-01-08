@@ -14,9 +14,6 @@ import com.github.layout.WRAP_CONTENT
 import com.github.util.dp
 import org.jetbrains.anko.*
 
-/**
- * Created by benny on 7/15/17.
- */
 class ErrorInfoView(val parentView: ViewGroup) : FrameLayout(parentView.context) {
     private var textView: TextView
 

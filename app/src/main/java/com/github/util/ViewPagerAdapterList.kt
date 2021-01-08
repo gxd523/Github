@@ -2,9 +2,6 @@ package com.github.util
 
 import androidx.viewpager.widget.PagerAdapter
 
-/**
- * Created by benny on 7/9/17.
- */
 class ViewPagerAdapterList<T>(val adapter: PagerAdapter) : ArrayList<T>() {
     override fun removeAt(index: Int): T {
         return super.removeAt(index).apply { adapter.notifyDataSetChanged() }
