@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-noarg'
     id 'kotlin-allopen'
+    id 'com.apollographql.apollo'
 }
 
 apply from: '../local.gradle'
@@ -105,4 +106,7 @@ dependencies {
 //    implementation "org.jetbrains.anko:anko-sdk15-coroutines:$anko_version"
 //    implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
 //    implementation "org.jetbrains.anko:anko-appcompat-v7-listeners:$anko_version"
+
+    implementation "com.apollographql.apollo:apollo-runtime:$apollo_version"
+    implementation 'com.apollographql.apollo:apollo-rx-support:1.0.2'
 }
