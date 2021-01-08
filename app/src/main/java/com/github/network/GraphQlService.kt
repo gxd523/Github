@@ -1,9 +1,9 @@
 package com.github.network
 
 import com.apollographql.apollo.ApolloClient
-import com.bennyhuo.retroapollo.RetroApollo
-import com.bennyhuo.retroapollo.annotations.GraphQLQuery
-import com.bennyhuo.retroapollo.rxjava.RxJavaCallAdapterFactory
+import com.github.retroapollo.RetroApollo
+import com.github.retroapollo.annotations.GraphQLQuery
+import com.github.retroapollo.rxjava.RxJavaCallAdapterFactory
 import com.github.graphql.entities.RepositoryIssueCountQuery
 import com.github.network.interceptors.AuthInterceptor
 import com.github.network.ok.createCommonClientBuilder
