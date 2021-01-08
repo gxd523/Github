@@ -56,6 +56,7 @@ dependencies {
     implementation project(":common")
     implementation project(":mvp")
     implementation project(":layout")
+    implementation project(":retroapollo")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
