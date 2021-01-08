@@ -24,7 +24,9 @@ class RepoListAdapter : CommonListAdapter<Repository>(R.layout.item_repo) {
     }
 
     override fun onItemClicked(itemView: View, item: Repository) {
-        itemView.context.launchActivity<RepoDetailActivity> {
+        itemView.context.launchActivity<RepoDetailActivity>(
+            Pair(0, 0)// 去掉默认pending动画，否则跟右滑退出效果冲突
+        ) {
             putParcelable(RepoDetailActivity.ARG_REPO, item)
         }
     }
