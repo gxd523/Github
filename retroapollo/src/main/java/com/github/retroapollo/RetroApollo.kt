@@ -9,8 +9,10 @@ import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
-class RetroApollo private constructor(val apolloClient: ApolloClient, val callAdapterFactories: List<CallAdapter.Factory>) {
-
+class RetroApollo private constructor(
+    val apolloClient: ApolloClient,
+    private val callAdapterFactoryList: List<CallAdapter.Factory>,
+) {
     class Builder {
         private var apolloClient: ApolloClient? = null
 
@@ -19,23 +21,24 @@ class RetroApollo private constructor(val apolloClient: ApolloClient, val callAd
             return this
         }
 
-        private val callAdapterFactories = arrayListOf<CallAdapter.Factory>(ApolloCallAdapterFactory())
+        private val callAdapterFactoryList = arrayListOf<CallAdapter.Factory>(ApolloCallAdapterFactory())
 
         fun addCallAdapterFactory(callAdapterFactory: CallAdapter.Factory): Builder {
-            callAdapterFactories.add(callAdapterFactory)
+            callAdapterFactoryList.add(callAdapterFactory)
             return this
         }
 
         fun build() = apolloClient?.let {
-            RetroApollo(it, callAdapterFactories)
+            RetroApollo(it, callAdapterFactoryList)
         } ?: throw IllegalStateException("ApolloClient cannot be null.")
     }
 
     private val serviceMethodCache = ConcurrentHashMap<Method, ApolloServiceMethod<*>>()
 
     fun <T : Any> createGraphQLService(serviceClass: KClass<T>): T {
-        RetroApolloUtil.validateServiceInterface(serviceClass.java)
-        return Proxy.newProxyInstance(serviceClass.java.classLoader, arrayOf(serviceClass.java),
+        val serviceJavaClass = serviceClass.java
+        RetroApolloUtil.validateServiceInterface(serviceJavaClass)
+        return Proxy.newProxyInstance(serviceJavaClass.classLoader, arrayOf(serviceJavaClass),
             object : InvocationHandler {
                 override fun invoke(proxy: Any, method: Method, args: Array<Any>?): Any {
                     if (method.declaringClass == Any::class.java) {
@@ -51,16 +54,18 @@ class RetroApollo private constructor(val apolloClient: ApolloClient, val callAd
         var serviceMethod = serviceMethodCache[method]
         if (serviceMethod == null) {
             synchronized(serviceMethodCache) {
-                serviceMethod = serviceMethodCache[method] ?: ApolloServiceMethod.Builder(this, method).build().also {
-                    serviceMethodCache[method] = it
-                }
+                serviceMethod = serviceMethodCache[method] ?: ApolloServiceMethod.Builder(this, method)
+                    .build()
+                    .also {
+                        serviceMethodCache[method] = it
+                    }
             }
         }
         return serviceMethod!!
     }
 
     fun getCallAdapter(type: Type): CallAdapter<Any, Any>? {
-        for (callAdapterFactory in callAdapterFactories) {
+        for (callAdapterFactory in callAdapterFactoryList) {
             val callAdapter = callAdapterFactory.get(type)
             return callAdapter as? CallAdapter<Any, Any> ?: continue
         }

@@ -7,17 +7,26 @@ import com.github.retroapollo.util.error
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 
-class ApolloServiceMethod<T : Any>(
+class ApolloServiceMethod<T : Any> private constructor(
     private val retroApollo: RetroApollo,
-    val method: Method,
+    /**
+     * 生成类的build():Builder
+     */
     private val buildBuilderMethod: Method,
+    /**
+     * 生成类的内部类Builder的build():生成类
+     */
     private val buildQueryMethod: Method,
     private val fieldSetters: List<Method>,
     private val callAdapter: CallAdapter<Any, T>,
 ) {
-
-    class Builder(private val retroApollo: RetroApollo, val method: Method) {
-
+    class Builder(
+        private val retroApollo: RetroApollo,
+        /**
+         * Api接口中定义的方法
+         */
+        method: Method,
+    ) {
         private val callAdapter: CallAdapter<Any, Any>
         private val buildBuilderMethod: Method
         private val buildQueryMethod: Method
@@ -41,19 +50,32 @@ class ApolloServiceMethod<T : Any>(
             //RepositoryIssueCountQuery.Data.class
             val dataType = callAdapter.responseType() as Class<*>
 
-            buildBuilderMethod = dataType.enclosingClass.getDeclaredMethod("builder")
-            val builderClass = dataType.enclosingClass.declaredClasses.first { it.simpleName == "Builder" }
+            // 匿名内部类对应的外部类，即RepositoryIssueCountQuery.Data对应的外部类RepositoryIssueCountQuery
+            val enclosingClass = dataType.enclosingClass
 
-            method.parameterAnnotations.zip(method.parameterTypes).mapTo(fieldSetters) { (first, second) ->
-                val annotation = first.first { it is GraphQLQuery } as GraphQLQuery
-                builderClass.getDeclaredMethod(annotation.value, second)
-            }
+            buildBuilderMethod = enclosingClass.getDeclaredMethod("builder")
+
+            // 类中声明的内部类，即Builder、Data等等
+            val declaredClasses = enclosingClass.declaredClasses
+            val builderClass = declaredClasses.first { it.simpleName == "Builder" }
+
+            method.parameterAnnotations
+                .zip(method.parameterTypes)
+                .mapTo(fieldSetters) { (first, second) ->
+                    val annotation = first.first { it is GraphQLQuery } as GraphQLQuery
+                    builderClass.getDeclaredMethod(annotation.value, second)// GraphQLQuery里的参数在生成类中会有对应方法，和参数名相同
+                }
 
             buildQueryMethod = builderClass.getDeclaredMethod("build")
         }
 
-        fun build() = ApolloServiceMethod(retroApollo, method, buildBuilderMethod, buildQueryMethod, fieldSetters, callAdapter)
-
+        fun build() = ApolloServiceMethod(
+            retroApollo,
+            buildBuilderMethod,
+            buildQueryMethod,
+            fieldSetters,
+            callAdapter
+        )
     }
 
     operator fun invoke(args: Array<Any>?): T {

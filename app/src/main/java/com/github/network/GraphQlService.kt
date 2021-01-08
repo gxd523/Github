@@ -1,12 +1,12 @@
 package com.github.network
 
 import com.apollographql.apollo.ApolloClient
-import com.github.retroapollo.RetroApollo
-import com.github.retroapollo.annotations.GraphQLQuery
-import com.github.retroapollo.rxjava.RxJavaCallAdapterFactory
 import com.github.graphql.entities.RepositoryIssueCountQuery
 import com.github.network.interceptors.AuthInterceptor
 import com.github.network.ok.createCommonClientBuilder
+import com.github.retroapollo.RetroApollo
+import com.github.retroapollo.annotations.GraphQLQuery
+import com.github.retroapollo.rxjava.RxJavaCallAdapterFactory
 import okhttp3.logging.HttpLoggingInterceptor
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers

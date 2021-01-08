@@ -42,7 +42,7 @@ private val cacheFile by lazy {
 
 private fun createClientBuilder() = createCommonClientBuilder()
     .cache(Cache(cacheFile, 50 * 1024 * 1024))
-    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
     .enableTls12OnPreLollipop()
 
 
