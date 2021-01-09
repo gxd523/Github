@@ -33,7 +33,7 @@ class ApolloServiceMethod<T : Any> private constructor(
         private val callAdapter: CallAdapter<Any, Any>
         private val buildBuilderMethod: Method
         private val buildQueryMethod: Method
-        private val fieldSetters = ArrayList<Method>()
+        private val queryParamSetterList = ArrayList<Method>()
 
         init {
             val returnType = method.genericReturnType
@@ -64,7 +64,7 @@ class ApolloServiceMethod<T : Any> private constructor(
 
             method.parameterAnnotations
                 .zip(method.parameterTypes)
-                .mapTo(fieldSetters) { (first, second) ->
+                .mapTo(queryParamSetterList) { (first, second) ->
                     val annotation = first.first { it is GraphQLQuery } as GraphQLQuery
                     builderClass.getDeclaredMethod(annotation.value, second)// GraphQLQuery里的参数在生成类中会有对应方法，和参数名相同
                 }
@@ -76,7 +76,7 @@ class ApolloServiceMethod<T : Any> private constructor(
             retroApollo,
             buildBuilderMethod,
             buildQueryMethod,
-            fieldSetters,
+            queryParamSetterList,
             callAdapter
         )
     }
