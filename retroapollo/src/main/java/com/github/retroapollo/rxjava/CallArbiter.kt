@@ -10,7 +10,10 @@ import rx.exceptions.*
 import rx.plugins.RxJavaPlugins
 import java.util.concurrent.atomic.AtomicInteger
 
-class CallArbiter<T>(val apolloCall: ApolloCall<T>, val subscriber: Subscriber<in Response<T>>) : Subscription, Producer {
+class CallArbiter<T>(
+    private val apolloCall: ApolloCall<T>,
+    private val subscriber: Subscriber<in Response<T>>,
+) : Subscription, Producer {
     companion object {
         private const val STATE_WAITING = 0
         private const val STATE_REQUESTED = 1
@@ -29,8 +32,7 @@ class CallArbiter<T>(val apolloCall: ApolloCall<T>, val subscriber: Subscriber<i
         if (n == 0L) return
 
         while (true) {
-            val state = atomicState.get()
-            when (state) {
+            when (atomicState.get()) {
                 STATE_WAITING -> if (atomicState.compareAndSet(STATE_WAITING, STATE_REQUESTED)) {
                     apolloCall.enqueue(object : ApolloCall.Callback<T>() {
                         override fun onFailure(e: ApolloException) {

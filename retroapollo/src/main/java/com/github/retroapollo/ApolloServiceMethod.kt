@@ -36,6 +36,7 @@ class ApolloServiceMethod<T : Any> private constructor(
         private val queryParamSetterList = ArrayList<Method>()
 
         init {
+            // Observable<RepositoryIssueCountQuery.Data>
             val returnType = method.genericReturnType
             if (RetroApolloUtil.hasUnresolvableType(returnType)) {
                 throw method.error("Method return type must not include a type variable or wildcard: %s", returnType)
