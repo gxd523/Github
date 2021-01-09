@@ -40,12 +40,12 @@ class RetroApollo private constructor(
         RetroApolloUtil.validateServiceInterface(serviceJavaClass)
         return Proxy.newProxyInstance(serviceJavaClass.classLoader, arrayOf(serviceJavaClass),
             object : InvocationHandler {
-                override fun invoke(proxy:  Any, method: Method, args: Array<Any>?): Any {
+                override fun invoke(proxy: Any, method: Method, args: Array<Any>?): Any {
                     if (method.declaringClass == Any::class.java) {
                         return method.invoke(this, args)
                     }
 
-                    return loadServiceMethod(method)(args)
+                    return loadServiceMethod(method)(args)// TODO: 1/9/21 重点：实现了invoke
                 }
             }) as T
     }

@@ -12,11 +12,11 @@ class ApolloServiceMethod<T : Any> private constructor(
     /**
      * 生成类的build():Builder
      */
-    private val buildBuilderMethod: Method,
+    private val buildMethod: Method,
     /**
      * 生成类的内部类Builder的build():生成类
      */
-    private val buildQueryMethod: Method,
+    private val buildMethodOfBuilder: Method,
     /**
      * 生成类中设置参数的Method的集合
      */
@@ -31,8 +31,8 @@ class ApolloServiceMethod<T : Any> private constructor(
         method: Method,
     ) {
         private val callAdapter: CallAdapter<Any, Any>
-        private val buildBuilderMethod: Method
-        private val buildQueryMethod: Method
+        private val buildMethod: Method
+        private val buildMethodOfBuilder: Method
         private val queryParamSetterList = ArrayList<Method>()
 
         init {
@@ -56,7 +56,7 @@ class ApolloServiceMethod<T : Any> private constructor(
             // 匿名内部类对应的外部类，即RepositoryIssueCountQuery.Data对应的外部类RepositoryIssueCountQuery
             val enclosingClass = dataType.enclosingClass
 
-            buildBuilderMethod = enclosingClass.getDeclaredMethod("builder")
+            buildMethod = enclosingClass.getDeclaredMethod("builder")
 
             // 类中声明的内部类，即Builder、Data等等
             val declaredClasses = enclosingClass.declaredClasses
@@ -69,28 +69,28 @@ class ApolloServiceMethod<T : Any> private constructor(
                     builderClass.getDeclaredMethod(annotation.value, second)// GraphQLQuery里的参数在生成类中会有对应方法，和参数名相同
                 }
 
-            buildQueryMethod = builderClass.getDeclaredMethod("build")
+            buildMethodOfBuilder = builderClass.getDeclaredMethod("build")
         }
 
         fun build() = ApolloServiceMethod(
             retroApollo,
-            buildBuilderMethod,
-            buildQueryMethod,
+            buildMethod,
+            buildMethodOfBuilder,
             queryParamSetterList,
             callAdapter
         )
     }
 
     operator fun invoke(args: Array<Any>?): T {
-        val builder = buildBuilderMethod(null)
+        val builder = buildMethod(null)
         args?.let {
-            queryParamSetterList.zip(it).forEach {
-                it.first.invoke(builder, it.second)
+            queryParamSetterList.zip(it).forEach { pair ->
+                pair.first.invoke(builder, pair.second)
             }
         }
 
-        //RepositoryIssueCountQuery.builder().owner(xxx).repo(xxx).build()
-        return callAdapter.adapt(retroApollo.apolloClient.query(buildQueryMethod(builder) as Query<*, Any, *>))
+        // RepositoryIssueCountQuery.builder().owner(xxx).repo(xxx).build()
+        return callAdapter.adapt(retroApollo.apolloClient.query(buildMethodOfBuilder.invoke(builder) as Query<*, Any, *>))
     }
 
 }
