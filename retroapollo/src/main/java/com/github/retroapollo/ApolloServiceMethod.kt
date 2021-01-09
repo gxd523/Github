@@ -17,7 +17,10 @@ class ApolloServiceMethod<T : Any> private constructor(
      * 生成类的内部类Builder的build():生成类
      */
     private val buildQueryMethod: Method,
-    private val fieldSetters: List<Method>,
+    /**
+     * 生成类中设置参数的Method的集合
+     */
+    private val queryParamSetterList: List<Method>,
     private val callAdapter: CallAdapter<Any, T>,
 ) {
     class Builder(
@@ -47,7 +50,7 @@ class ApolloServiceMethod<T : Any> private constructor(
 
             callAdapter = retroApollo.getCallAdapter(returnType) ?: throw  IllegalStateException("$returnType is not supported.")
 
-            //RepositoryIssueCountQuery.Data.class
+            // RepositoryIssueCountQuery.Data.class
             val dataType = callAdapter.responseType() as Class<*>
 
             // 匿名内部类对应的外部类，即RepositoryIssueCountQuery.Data对应的外部类RepositoryIssueCountQuery
@@ -81,7 +84,7 @@ class ApolloServiceMethod<T : Any> private constructor(
     operator fun invoke(args: Array<Any>?): T {
         val builder = buildBuilderMethod(null)
         args?.let {
-            fieldSetters.zip(it).forEach {
+            queryParamSetterList.zip(it).forEach {
                 it.first.invoke(builder, it.second)
             }
         }
