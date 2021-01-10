@@ -5,8 +5,10 @@ import com.github.graphql.entities.RepositoryIssueCountQuery
 import com.github.network.interceptors.AuthInterceptor
 import com.github.network.ok.createCommonClientBuilder
 import com.github.retroapollo.RetroApollo
-import com.github.retroapollo.annotations.GraphQLQuery
+import com.github.retroapollo.annotations.GraphQliQuery
+import com.github.retroapollo.coroutine.CoroutineCallAdapterFactory
 import com.github.retroapollo.rxjava.RxJavaCallAdapterFactory
+import kotlinx.coroutines.Deferred
 import okhttp3.logging.HttpLoggingInterceptor
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
@@ -16,9 +18,14 @@ private const val BASE_URL = "https://api.github.com/graphql"
 
 interface GraphQlApi {
     fun repositoryIssuesCount(
-        @GraphQLQuery("owner") owner: String,
-        @GraphQLQuery("repoName") repoName: String,
+        @GraphQliQuery("owner") owner: String,
+        @GraphQliQuery("repoName") repoName: String,
     ): Observable<RepositoryIssueCountQuery.Data>
+
+    fun repositoryIssuesCountAsync(
+        @GraphQliQuery("owner") owner: String,
+        @GraphQliQuery("repoName") repoName: String,
+    ): Deferred<RepositoryIssueCountQuery.Data>
 }
 
 private val graphQlService by lazy {
@@ -29,6 +36,7 @@ private val graphQlService by lazy {
                 .observableScheduler(AndroidSchedulers.mainThread())
                 .subscribeScheduler(Schedulers.io())
         )
+        .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .build()
         .createGraphQLService(GraphQlApi::class)
 }

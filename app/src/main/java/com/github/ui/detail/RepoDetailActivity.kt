@@ -120,14 +120,19 @@ class RepoDetailActivity : BaseDetailSwipeFinishActivity() {
 
             })
 
-        GraphQlService.repositoryIssuesCount(repository.owner.login, repository.name)
-            .subscribeIgnoreError { data ->
+        launchUi {
+            val (data, error) = GraphQlService
+                .repositoryIssuesCountAsync(repository.owner.login, repository.name)
+                .awaitOrError()
+
+            error?.printStackTrace() ?: data.apply {
                 issues.content = "open: ${
-                    data.repository()?.openIssues()?.totalCount() ?: 0
+                    repository()?.openIssues()?.totalCount() ?: 0
                 } closed: ${
-                    data.repository()?.closedIssues()?.totalCount() ?: 0
+                    repository()?.closedIssues()?.totalCount() ?: 0
                 }"
             }
+        }
     }
 
 }
