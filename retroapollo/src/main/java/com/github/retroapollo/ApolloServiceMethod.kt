@@ -1,7 +1,7 @@
 package com.github.retroapollo
 
 import com.apollographql.apollo.api.Query
-import com.github.retroapollo.annotations.GraphQliQuery
+import com.github.retroapollo.annotations.GraphQlQuery
 import com.github.retroapollo.util.RetroApolloUtil
 import com.github.retroapollo.util.error
 import java.lang.reflect.Method
@@ -66,7 +66,7 @@ class ApolloServiceMethod<T : Any> private constructor(
             method.parameterAnnotations
                 .zip(method.parameterTypes)
                 .mapTo(queryParamSetterList) { (first, second) ->
-                    val annotation = first.first { it is GraphQliQuery } as GraphQliQuery
+                    val annotation = first.first { it is GraphQlQuery } as GraphQlQuery
                     builderClass.getDeclaredMethod(annotation.value, second)// GraphQLQuery里的参数在生成类中会有对应方法，和参数名相同
                 }
 
