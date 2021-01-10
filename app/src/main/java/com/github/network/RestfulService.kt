@@ -7,6 +7,7 @@ import com.github.network.interceptors.AcceptInterceptor
 import com.github.network.interceptors.AuthInterceptor
 import com.github.network.interceptors.CacheInterceptor
 import com.github.network.ok.createCommonClientBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -49,4 +50,5 @@ private fun createClientBuilder() = createCommonClientBuilder()
 private fun createRetrofitBuilder(client: OkHttpClient) = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .addCallAdapterFactory(RxJavaCallAdapterFactory2.createWithSchedulers(Schedulers.io(), AndroidSchedulers.mainThread()))
+    .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .client(client)

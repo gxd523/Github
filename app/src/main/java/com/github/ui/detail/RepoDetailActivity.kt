@@ -81,10 +81,14 @@ class RepoDetailActivity : BaseDetailSwipeFinishActivity() {
                 stars.isChecked = it.isSuccessful
             }
 
-        ActivityService.isWatched(repository.owner.login, repository.name)
-            .subscribeIgnoreError {
-                watches.isChecked = it.subscribed
+        launchUi {
+            val (subscriptionResponse, error) = ActivityService
+                .isWatchedAsync(repository.owner.login, repository.name)
+                .awaitOrError()
+            error?.printStackTrace() ?: let {
+                watches.isChecked = subscriptionResponse.subscribed
             }
+        }
     }
 
     private fun reloadDetails(forceNetwork: Boolean = false) {

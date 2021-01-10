@@ -18,9 +18,12 @@ import com.github.ui.main.navigation.MenuItemData
 import com.github.ui.main.navigation.NavigationController
 import com.github.ui.main.navigation.afterClosed
 import com.github.util.launchActivity
+import com.github.util.launchUi
 import com.github.util.showFragment
+import com.github.widget.confirm
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_item_daynight.view.*
+import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
     val actionBarController by lazy {
@@ -85,7 +88,13 @@ class MainActivity : AppCompatActivity() {
         AccountManager.isLoggedIn().no {
             launchActivity<LoginActivity>()
         }.otherwise {
-            AccountManager.logout()
+            launchUi {
+                confirm("提示", "确认要注销吗?").yes {
+                    AccountManager.logout()
+                }.otherwise {
+                    toast("取消了")
+                }
+            }
         }
     }
 

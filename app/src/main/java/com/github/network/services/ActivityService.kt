@@ -5,6 +5,7 @@ import com.github.network.entities.SubscriptionBody
 import com.github.network.entities.SubscriptionResponse
 import com.github.network.entities.WATCH
 import com.github.network.retrofit
+import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.adapter.rxjava.GitHubPaging
 import retrofit2.http.*
@@ -29,7 +30,7 @@ interface ActivityApi {
 
     //region watch / subscription
     @GET("/repos/{owner}/{repo}/subscription")
-    fun isWatched(@Path("owner") owner: String, @Path("repo") repo: String): Observable<SubscriptionResponse>
+    fun isWatchedAsync(@Path("owner") owner: String, @Path("repo") repo: String): Deferred<SubscriptionResponse>
 
     @PUT("/repos/{owner}/{repo}/subscription")
     @Headers("Content-Type:application/json")
