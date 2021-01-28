@@ -1,7 +1,7 @@
 package com.github.retroapollo
 
 import com.apollographql.apollo.api.Query
-import com.github.retroapollo.annotations.GraphQlQuery
+import com.github.retroapollo.annotation.GraphQlQuery
 import com.github.retroapollo.util.RetroApolloUtil
 import com.github.retroapollo.util.error
 import java.lang.reflect.Method

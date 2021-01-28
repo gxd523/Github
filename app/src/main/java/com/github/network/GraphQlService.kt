@@ -5,7 +5,7 @@ import com.github.graphql.entities.RepositoryIssueCountQuery
 import com.github.network.interceptors.AuthInterceptor
 import com.github.network.ok.createCommonClientBuilder
 import com.github.retroapollo.RetroApollo
-import com.github.retroapollo.annotations.GraphQlQuery
+import com.github.retroapollo.annotation.GraphQlQuery
 import com.github.retroapollo.coroutine.CoroutineCallAdapterFactory
 import com.github.retroapollo.rxjava.RxJavaCallAdapterFactory
 import kotlinx.coroutines.Deferred
