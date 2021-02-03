@@ -2,7 +2,9 @@ package com.github
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
+import com.github.util.copyTo
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.File
@@ -11,9 +13,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class OkHttpActivity : Activity() {
-    val urlArray = arrayOf(
+    private val urlArray = arrayOf(
+        "http://www.baidu.com",
         "http://zmapi.dangbei.net/time.php",
-        "http://down.znds.com/getdownurl/?s=L3dlYi9kYW5nYmVpbWFya2V0XzQuMi44XzI1OV95dW5qaS5hcGs=",
+        "http://115.223.11.173/app.znds.com/web/dangbeimarket_4.2.8_259_yunji.apk",
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +27,9 @@ class OkHttpActivity : Activity() {
             .build()
 
         val request = Request.Builder()
-            .url(urlArray[0])
-            .post(requestBody)
+            .url(urlArray[2])
+//            .post(requestBody)
+            .get()
             .build()
 
         val client = OkHttpClient.Builder()
@@ -38,18 +42,37 @@ class OkHttpActivity : Activity() {
         val call = client.newCall(request)
         call.enqueue(object : Callback {
             override fun onResponse(call: Call, response: Response) {
-                response.body()?.string()?.toLong()
-                    ?.let { it * 1000 }
-                    ?.let(::Date)
-                    .let(SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)::format)
-                    .let {
-                        Log.d("gxd", "TempActivity.onResponse-->$it")
-                    }
+                response.body()?.let { responseBody ->
+                    downloadApk(responseBody)
+//                    printDate(responseBody)
+                }
             }
 
             override fun onFailure(call: Call, e: IOException) {
                 Log.d("gxd", "TempActivity.onFailure-->", e)
             }
         })
+    }
+
+    private fun printDate(responseBody: ResponseBody) {
+        responseBody.string().toLong()
+            .let { it * 1000 }
+            .let(::Date)
+            .let(SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)::format)
+            .let {
+                Log.d("gxd", "TempActivity.onResponse-->$it")
+            }
+    }
+
+    private fun downloadApk(responseBody: ResponseBody) {
+        File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "a.apk")
+            .outputStream().use { output ->
+                responseBody.byteStream().use { input ->
+                    input.copyTo(output) { bytesCopied ->
+                        val progress = bytesCopied * 100 / responseBody.contentLength()
+                        Log.d("gxd", "下载进度...$progress")
+                    }
+                }
+            }
     }
 }
