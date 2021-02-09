@@ -24,6 +24,7 @@ import com.github.widget.confirm
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_item_daynight.view.*
 import org.jetbrains.anko.toast
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     val actionBarController by lazy {
