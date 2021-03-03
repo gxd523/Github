@@ -9,6 +9,7 @@ import com.github.R
 import com.github.common.no
 import com.github.common.otherwise
 import com.github.common.yes
+import com.github.databinding.ActivityMainBinding
 import com.github.model.account.AccountManager
 import com.github.model.account.OnAccountStateChangeListener
 import com.github.network.entities.User
@@ -21,18 +22,20 @@ import com.github.util.launchActivity
 import com.github.util.launchUi
 import com.github.util.showFragment
 import com.github.widget.confirm
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_item_daynight.view.*
 import org.jetbrains.anko.toast
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    private val binding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
     val actionBarController by lazy {
-        ActionBarController(tabLayout)
+        ActionBarController(binding.tabLayout)
     }
 
     private val navigationController by lazy {
-        NavigationController(navigationView, ::onNavigationItemSelected, ::onNavigationHeaderClicked)
+        NavigationController(binding.navigationView, ::onNavigationItemSelected, ::onNavigationHeaderClicked)
     }
 
     private val accountListener by lazy {
@@ -51,17 +54,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Themer.applyProperTheme(this)
 
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
-            drawerLayout,
-            toolbar,
+            binding.drawerLayout,
+            binding.toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
 
         initNavigationView()
@@ -79,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onNavigationItemSelected(menuItemData: MenuItemData) {
-        drawerLayout.afterClosed {
+        binding.drawerLayout.afterClosed {
             showFragment(R.id.fragmentContainer, menuItemData.fragmentClass, menuItemData.arguements)
             title = menuItemData.title
         }
@@ -112,8 +115,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }

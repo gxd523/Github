@@ -7,15 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.setPadding
-import com.github.R
 import com.github.common.fragment.CommonSinglePageFragment
+import com.github.databinding.FragmentAboutBinding
 import com.github.util.dp
 import com.github.util.markdownText
 import kotlinx.android.synthetic.main.fragment_about.*
 
 class AboutFragment : CommonSinglePageFragment() {
+    var binding: FragmentAboutBinding? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_about, container, false)
+        binding = FragmentAboutBinding.inflate(inflater, container, false)
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,5 +33,10 @@ class AboutFragment : CommonSinglePageFragment() {
                 }
                 .show()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
