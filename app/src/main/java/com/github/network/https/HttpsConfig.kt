@@ -47,6 +47,7 @@ fun OkHttpClient.Builder.trustCertificate(vararg certificateStream: InputStream)
     sslContext.init(null, trustManagers, SecureRandom())
 
     sslSocketFactory(sslContext.socketFactory, trustManagers[0] as X509TrustManager)
+    hostnameVerifier { _, _ -> true }
     return this
 }
 
@@ -54,8 +55,6 @@ fun OkHttpClient.Builder.trustCertificate(vararg certificateStream: InputStream)
  * 不对证书做检查，始终信任证书
  */
 fun OkHttpClient.Builder.trustCertificate(): OkHttpClient.Builder {
-    hostnameVerifier { _, _ -> true }
-
     val trustManager = object : X509TrustManager {
         override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) = TODO()
 
@@ -68,5 +67,6 @@ fun OkHttpClient.Builder.trustCertificate(): OkHttpClient.Builder {
     sslContext.init(null, arrayOf(trustManager), null)
 
     sslSocketFactory(sslContext.socketFactory, trustManager)
+    hostnameVerifier { _, _ -> true }
     return this
 }

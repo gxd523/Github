@@ -50,6 +50,20 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    flavorDimensions 'default'
+    productFlavors {
+        general {
+            dimension 'default'
+        }
+        xiaomi {
+            dimension 'default'
+            applicationId 'com.xiaomi.demo'
+        }
+        huawei {
+            dimension 'default'
+            applicationId 'com.huawei.demo'
+        }
+    }
 }
 
 dependencies {
