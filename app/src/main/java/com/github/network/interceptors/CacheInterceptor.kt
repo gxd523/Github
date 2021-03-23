@@ -19,7 +19,7 @@ class CacheInterceptor : Interceptor {
             request.newBuilder()
                 .cacheControl(CacheControl.FORCE_CACHE)
                 .build()
-        }.otherwise {
+        }.otherwise {// 网络正常情况下，如果设置了FORCE_NETWORK，让缓存失效，从而强制网络请求
             request.url().queryParameter(FORCE_NETWORK)?.toBoolean()?.let {
                 it.yes {
                     //注意 noCache | noStore，前者不会读缓存；后者既不读缓存，也不对响应进行缓存

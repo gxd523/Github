@@ -11,17 +11,15 @@ import com.github.common.fragment.CommonSinglePageFragment
 import com.github.databinding.FragmentAboutBinding
 import com.github.util.dp
 import com.github.util.markdownText
-import kotlinx.android.synthetic.main.fragment_about.*
 
-class AboutFragment : CommonSinglePageFragment() {
-    var binding: FragmentAboutBinding? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentAboutBinding.inflate(inflater, container, false)
-        return binding!!.root
-    }
+class AboutFragment : CommonSinglePageFragment<FragmentAboutBinding>() {
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): FragmentAboutBinding = FragmentAboutBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun FragmentAboutBinding.onViewCreated(view: View, savedInstanceState: Bundle?) {
         licensesTextView.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .create()
@@ -33,10 +31,5 @@ class AboutFragment : CommonSinglePageFragment() {
                 }
                 .show()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 }

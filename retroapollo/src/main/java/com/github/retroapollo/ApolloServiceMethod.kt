@@ -57,7 +57,7 @@ class ApolloServiceMethod<T : Any> private constructor(
             // 匿名内部类对应的外部类，即RepositoryIssueCountQuery.Data对应的外部类RepositoryIssueCountQuery
             val enclosingClass = dataType.enclosingClass
 
-            buildMethod = enclosingClass.getDeclaredMethod("builder")
+            buildMethod = enclosingClass!!.getDeclaredMethod("builder")
 
             // 类中声明的内部类，即Builder、Data等等
             val declaredClasses = enclosingClass.declaredClasses

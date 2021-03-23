@@ -9,7 +9,7 @@ import kotlin.reflect.KProperty
 import kotlin.reflect.full.isSuperclassOf
 
 class PropertiesDelegate(private val path: String) {
-    private lateinit var url: URL
+    private var url: URL? = null
 
     private val properties: Properties by lazy {
         val prop = Properties()
@@ -50,8 +50,10 @@ class PropertiesDelegate(private val path: String) {
 
     operator fun <T> setValue(thisRef: Any, property: KProperty<*>, value: T) {
         properties[property.name] = value.toString()
-        File(url.toURI()).outputStream().use {
-            properties.store(it, "")
+        url?.let { url ->
+            File(url.toURI()).outputStream().use { outputStream ->
+                properties.store(outputStream, "")
+            }
         }
     }
 }

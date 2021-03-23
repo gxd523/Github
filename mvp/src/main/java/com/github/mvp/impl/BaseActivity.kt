@@ -23,7 +23,7 @@ abstract class BaseActivity<out Presenter : BasePresenter<BaseActivity<Presenter
         sequence<Type> {
             var thisClass: Class<*> = this@BaseActivity.javaClass
             while (true) {
-                yield(thisClass.genericSuperclass)
+                yield(thisClass.genericSuperclass!!)
                 thisClass = thisClass.superclass ?: break
             }
         }.filter {
