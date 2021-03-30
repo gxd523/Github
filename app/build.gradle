@@ -50,8 +50,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        viewBinding true
+    viewBinding {
+        enabled = true
     }
 
     flavorDimensions 'default'
@@ -143,4 +143,5 @@ dependencies {
         exclude group: 'org.jetbrains.kotlin'
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
+    implementation 'com.github.gxd523:ViewBindingWrapper:0.0.3'
 }

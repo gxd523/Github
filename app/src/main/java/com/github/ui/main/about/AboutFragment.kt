@@ -1,9 +1,7 @@
 package com.github.ui.main.about
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.setPadding
@@ -13,12 +11,6 @@ import com.github.util.dp
 import com.github.util.markdownText
 
 class AboutFragment : CommonSinglePageFragment<FragmentAboutBinding>() {
-    override fun onCreateBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): FragmentAboutBinding = FragmentAboutBinding.inflate(inflater, container, false)
-
     override fun FragmentAboutBinding.onViewCreated(view: View, savedInstanceState: Bundle?) {
         licensesTextView.setOnClickListener {
             AlertDialog.Builder(requireContext())
